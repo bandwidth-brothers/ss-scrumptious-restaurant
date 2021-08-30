@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -19,7 +18,6 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
@@ -50,18 +48,6 @@ public class RestaurantServiceTest {
 	
 	@Mock
 	CategoryRepository categoryRepository;
-	
-	@Autowired
-	RestaurantRepository restaurantRepo;
-	
-	@Autowired
-	AddressRepository addressRepo;
-	
-	@Autowired
-	RestaurantCategoryRepository restaurantCategoryRepo;
-	
-	@Autowired
-	CategoryRepository categoryRepo;
 	
 	@Captor
 	private ArgumentCaptor<List<RestaurantCategory>> captor;

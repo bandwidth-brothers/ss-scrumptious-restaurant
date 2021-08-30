@@ -15,9 +15,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,7 +41,7 @@ public class Restaurant {
     @Column(columnDefinition = "BINARY(16)", name = "restaurantId", updatable = false)
     private UUID restaurantId;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="addressId", referencedColumnName = "addressId")
 	@EqualsAndHashCode.Exclude
 	private Address address;
@@ -57,14 +60,21 @@ public class Restaurant {
     @Column(name="isActive")
     private Boolean isActive = true;
     
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
     		name="RESTAURANT_CATEGORY_REL", 
     		joinColumns = @JoinColumn(name = "restaurantId"),
     		inverseJoinColumns = @JoinColumn(name = "restaurantCategoryId"))
     @EqualsAndHashCode.Exclude
+    @Builder.Default
     private Set<RestaurantCategory> restaurantCategories = new HashSet<>();
 
+    @OneToMany(mappedBy = "restaurant")
+    @JsonIgnore
+    @EqualsAndHashCode.Exclude
+    @Builder.Default
+    private Set<MenuItem> menuItems = new HashSet<>();
+    
 	public void addRestaurantCategory(RestaurantCategory rC) {
 		restaurantCategories.add(rC);
 	}
