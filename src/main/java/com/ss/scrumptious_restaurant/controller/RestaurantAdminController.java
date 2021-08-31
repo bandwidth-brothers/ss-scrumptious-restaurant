@@ -34,15 +34,16 @@ public class RestaurantAdminController {
 	private final RestaurantService restaurantService;
 	private final MenuService menuService;
 
-	@PostMapping("/restaurant")
+	
+	@PostMapping("/restaurants")
 	public ResponseEntity<UUID> createNewRestaurant(@Valid @RequestBody CreateRestaurantDto createRestaurantDto) {
 		Restaurant restaurant = restaurantService.createNewRestaurant(createRestaurantDto);
 		UUID restaurantId = restaurant.getRestaurantId();
-		return ResponseEntity.created(URI.create("/admin/restaurant/" + restaurantId + "/category-collection"))
+		return ResponseEntity.created(URI.create("/admin/restaurants/" + restaurantId + "/category-collection"))
 				.body(restaurantId);
 	}
 
-	@PutMapping(value = "/restaurant/{restaurantId}/category-collection", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/restaurants/{restaurantId}/category-collection", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<RestaurantCategory>> createNewRestaurantCategories(
 			@Valid @RequestBody ListRestaurantCategoryDto listRestaurantCategoryDto, @PathVariable UUID restaurantId) {
 		List<RestaurantCategory> restaurantCategories = restaurantService
@@ -53,16 +54,16 @@ public class RestaurantAdminController {
 		if (restaurantCategories.size() == 0) {
 			return ResponseEntity.noContent().build();
 		} else {
-			return ResponseEntity.created(URI.create("/admin/restaurant/" + restaurantId)).body(restaurantCategories);
+			return ResponseEntity.created(URI.create("/admin/restaurants/" + restaurantId)).body(restaurantCategories);
 		}
 	}
 
-	@PostMapping("/restaurant/{restaurantId}/menu-items")
+	@PostMapping("/restaurants/{restaurantId}/menu-items")
 	public ResponseEntity<UUID> createNewMenuItem(@Valid @RequestBody CreateMenuItemDto createMenuItemDto,
 			@PathVariable UUID restaurantId) {
 		MenuItem menuItem = menuService.createNewMenuItem(createMenuItemDto, restaurantId);
 		UUID menuItemId = menuItem.getMenuItemId();
 
-		return ResponseEntity.created(URI.create("admin/restaurant/" + restaurantId + "/menu-items")).body(menuItemId);
+		return ResponseEntity.created(URI.create("admin/restaurants/" + restaurantId + "/menu-items")).body(menuItemId);
 	}
 }
