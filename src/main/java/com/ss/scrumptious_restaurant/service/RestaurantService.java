@@ -80,4 +80,9 @@ public class RestaurantService {
 		
 		return restaurantCategories;
 	}
+
+	public List<Restaurant> getAllRestaurants() {
+		List<Restaurant> restaurants = restaurantRepository.findAll();
+		return restaurants;
+	}
 }

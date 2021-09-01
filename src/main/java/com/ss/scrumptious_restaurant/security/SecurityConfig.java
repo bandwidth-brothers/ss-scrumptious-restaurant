@@ -33,12 +33,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .headers().frameOptions().sameOrigin().and()
+                .addFilter(new JwtAuthenticationVerificationFilter(authenticationManager(), securityConstants))
                 .authorizeRequests()
-                .antMatchers("/admin/**").permitAll()
+                //.antMatchers("/admin/**").permitAll()
                 .antMatchers("/h2-console/*").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .addFilter(new JwtAuthenticationVerificationFilter(authenticationManager(), securityConstants));
+                .anyRequest().authenticated();
     }
 
 	

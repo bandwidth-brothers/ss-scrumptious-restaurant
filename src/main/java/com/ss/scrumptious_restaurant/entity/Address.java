@@ -13,6 +13,8 @@ import javax.validation.constraints.NotBlank;
 
 import org.springframework.lang.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,6 +36,7 @@ public class Address {
 	
 	@OneToOne(mappedBy = "address")
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
 	private Restaurant restaurant;
 	
 	@NotBlank

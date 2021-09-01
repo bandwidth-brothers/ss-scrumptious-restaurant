@@ -53,37 +53,38 @@ public class JwtAuthenticationVerificationFilter extends BasicAuthenticationFilt
     }
 
     private UsernamePasswordAuthenticationToken getAuthenticationToken(HttpServletRequest request){
-        String token = request.getHeader(securityConstants.getHEADER_STRING())
-                .replace(securityConstants.getTOKEN_PREFIX(),"");
-        if (token == null){
-            return null;
-        }
+    	 String token = request.getHeader(securityConstants.getHEADER_STRING())
+                 .replace(securityConstants.getTOKEN_PREFIX(), "");
+         if (token == null) {
+             return null;
+         }
 
-        DecodedJWT jwt = JWT.require(HMAC512(securityConstants.getSECRET().getBytes()))
-                .build()
-                .verify(token);
-        
-        // parse the token and validate it
-        String userName = jwt.getSubject();
+         DecodedJWT jwt = JWT.require(HMAC512(securityConstants.getSECRET().getBytes()))
+                 .build()
+                 .verify(token);
+         
+         // parse the token and validate it
+         String userName = jwt.getSubject();
+  
+         if (userName == null){
+             return null;
+         }
 
-        if (userName == null){
-            return null;
-        }
-        
-        
-        List<SimpleGrantedAuthority> authorities = Arrays.asList(jwt.getClaim(securityConstants.getAUTHORITY_CLAIM_KEY())
-        		.asArray(String.class))
-        		.stream()
-        		.map(s -> new SimpleGrantedAuthority((String)s))
-        		.collect(Collectors.toList());
-        
-        String userId = jwt.getClaim("").asString();
-        
-        JwtPrincipalModel jwtPrincipalModel = JwtPrincipalModel.builder()
-        		.username(userName)
-        		.userId(UUID.fromString(userName))
-        		.build();
-        
-        return new UsernamePasswordAuthenticationToken(jwtPrincipalModel, null, authorities);
+         
+         
+         List<SimpleGrantedAuthority> authorities = Arrays.asList(
+         		jwt.getClaim(securityConstants.getAUTHORITY_CLAIM_KEY()).asString().split(","))
+         		.stream()
+         		.map(s -> new SimpleGrantedAuthority(s))
+         		.collect(Collectors.toList());
+         
+         String userId = jwt.getClaim(securityConstants.getUSER_ID_CLAIM_KEY()).asString();
+         
+         JwtPrincipalModel jwtPrincipalModel = JwtPrincipalModel.builder()
+         		.username(userName)
+         		.userId(UUID.fromString(userId))
+         		.build();
+       
+         return new UsernamePasswordAuthenticationToken(jwtPrincipalModel, null, authorities);
     }
 }
