@@ -34,7 +34,7 @@ public class RestaurantAdminController {
 	private final RestaurantService restaurantService;
 
 	@GetMapping("/restaurants")
-	@PreAuthorize("hasRole('CUSTOMER')")
+	@PreAuthorize("hasRole('EMPLOYEE') or hasRole('ADMIN')")
 	public List<Restaurant> getAllRestaurants(){
 		List<Restaurant> restaurants = restaurantService.getAllRestaurants();
 
@@ -42,7 +42,7 @@ public class RestaurantAdminController {
 	}
 	
 	@PostMapping("/restaurants")
-	@PreAuthorize("hasRole('CUSTOMER')")
+	@PreAuthorize("hasRole('EMPLOYEE') or hasRole('ADMIN')")
 	public ResponseEntity<UUID> createNewRestaurant(@Valid @RequestBody CreateRestaurantDto createRestaurantDto) {
 		Restaurant restaurant = restaurantService.createNewRestaurant(createRestaurantDto);
 		UUID restaurantId = restaurant.getRestaurantId();
@@ -50,6 +50,7 @@ public class RestaurantAdminController {
 	}
 
 	@PutMapping(value = "/restaurants/{restaurantId}/category-collection", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('EMPLOYEE') or hasRole('ADMIN')")
 	public ResponseEntity<List<RestaurantCategory>> createNewRestaurantCategories(
 			@Valid @RequestBody ListRestaurantCategoryDto listRestaurantCategoryDto, @PathVariable UUID restaurantId) {
 		List<RestaurantCategory> restaurantCategories = restaurantService
