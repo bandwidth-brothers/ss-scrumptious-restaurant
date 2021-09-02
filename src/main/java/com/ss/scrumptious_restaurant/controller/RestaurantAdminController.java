@@ -34,7 +34,7 @@ public class RestaurantAdminController {
 	private final RestaurantService restaurantService;
 
 	@GetMapping("/restaurants")
-	@PreAuthorize("hasRole('EMPLOYEE') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('EMPLOYEE','ADMIN')")
 	public List<Restaurant> getAllRestaurants(){
 		List<Restaurant> restaurants = restaurantService.getAllRestaurants();
 

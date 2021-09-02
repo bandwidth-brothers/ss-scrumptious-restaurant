@@ -69,8 +69,6 @@ public class JwtAuthenticationVerificationFilter extends BasicAuthenticationFilt
          if (userName == null){
              return null;
          }
-
-         
          
          List<SimpleGrantedAuthority> authorities = Arrays.asList(
          		jwt.getClaim(securityConstants.getAUTHORITY_CLAIM_KEY()).asString().split(","))
