@@ -18,10 +18,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ss.scrumptious_restaurant.dto.CreateMenuItemDto;
 import com.ss.scrumptious_restaurant.dto.CreateRestaurantDto;
 import com.ss.scrumptious_restaurant.dto.ListRestaurantCategoryDto;
+import com.ss.scrumptious_restaurant.entity.MenuItem;
 import com.ss.scrumptious_restaurant.entity.Restaurant;
 import com.ss.scrumptious_restaurant.entity.RestaurantCategory;
+import com.ss.scrumptious_restaurant.service.MenuService;
 import com.ss.scrumptious_restaurant.service.RestaurantService;
 
 import lombok.RequiredArgsConstructor;
@@ -32,6 +35,7 @@ import lombok.RequiredArgsConstructor;
 public class RestaurantAdminController {
 
 	private final RestaurantService restaurantService;
+	private final MenuService menuService;
 
 	@GetMapping("/restaurants")
 	@PreAuthorize("hasAnyRole('EMPLOYEE','ADMIN')")
@@ -55,12 +59,22 @@ public class RestaurantAdminController {
 			@Valid @RequestBody ListRestaurantCategoryDto listRestaurantCategoryDto, @PathVariable UUID restaurantId) {
 		List<RestaurantCategory> restaurantCategories = restaurantService
 				.createNewRestaurantCategories(listRestaurantCategoryDto, restaurantId);
-		//List<UUID> restaurantCategoriesIds = restaurantCategories.stream().map(rC -> rC.getRestaurantCategoryId())
-				//.collect(Collectors.toList());
+		// List<UUID> restaurantCategoriesIds = restaurantCategories.stream().map(rC ->
+		// rC.getRestaurantCategoryId())
+		// .collect(Collectors.toList());
 		if (restaurantCategories.size() == 0) {
 			return ResponseEntity.noContent().build();
 		} else {
 			return ResponseEntity.created(URI.create("/admin/restaurants/" + restaurantId)).body(restaurantCategories);
 		}
+	}
+
+	@PostMapping("/restaurants/{restaurantId}/menu-items")
+	public ResponseEntity<UUID> createNewMenuItem(@Valid @RequestBody CreateMenuItemDto createMenuItemDto,
+			@PathVariable UUID restaurantId) {
+		MenuItem menuItem = menuService.createNewMenuItem(createMenuItemDto, restaurantId);
+		UUID menuItemId = menuItem.getMenuItemId();
+
+		return ResponseEntity.created(URI.create("admin/restaurants/" + restaurantId + "/menu-items")).body(menuItemId);
 	}
 }
