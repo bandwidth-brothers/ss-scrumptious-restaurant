@@ -1,7 +1,5 @@
 node{
-	stage("checkout"){
-		git branch:%env.BRANCH_NAME%, url:'https://github.com/bandwidth-brothers/ss-scrumptious-restaurant'
-	}
+	checkout scm
 	withCredentials([string(credentialsId: 'sonarqube', variable: 'SQC')]) {
 		stage("verify"){
 			bat 'mvn clean verify sonar:sonar -Dsonar.login=%SQC%'
