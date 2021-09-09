@@ -1,3 +1,3 @@
-FROM maven:3.8.2-jdk-11
-RUN mvn clean package
-ENTRYPOINT java -jar target/ss-scrumptious-restaurant-SNAPSHOT-0.0.1
+FROM maven:latest
+COPY target/ss-scrumptious-restaurant-0.0.1-SNAPSHOT.jar /home
+ENTRYPOINT java -jar /home/ss-scrumptious-restaurant-0.0.1-SNAPSHOT.jar
