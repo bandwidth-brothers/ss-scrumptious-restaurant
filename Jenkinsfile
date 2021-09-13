@@ -3,10 +3,8 @@ node{
 		environment{
 			scannerHome = tool 'sonarqube'
 		}
-		steps{
-			withSonarQubeEnv('sonarqube'){
-				sh "${scannerHome}/bin/sonar-scanner"
-			}
+		withSonarQubeEnv('sonarqube'){
+			sh "${scannerHome}/bin/sonar-scanner"
 		}
 	}
 	checkout scm
