@@ -23,6 +23,7 @@ import org.springframework.test.annotation.Rollback;
 
 import com.ss.scrumptious_restaurant.dao.AddressRepository;
 import com.ss.scrumptious_restaurant.dao.RestaurantCategoryRepository;
+import com.ss.scrumptious_restaurant.dao.RestaurantOwnerRepository;
 import com.ss.scrumptious_restaurant.dao.RestaurantRepository;
 import com.ss.scrumptious_restaurant.dto.CreateRestaurantDto;
 import com.ss.scrumptious_restaurant.dto.ListRestaurantCategoryDto;
@@ -30,6 +31,7 @@ import com.ss.scrumptious_restaurant.dto.RestaurantCategoryDto;
 import com.ss.scrumptious_restaurant.entity.Address;
 import com.ss.scrumptious_restaurant.entity.Restaurant;
 import com.ss.scrumptious_restaurant.entity.RestaurantCategory;
+import com.ss.scrumptious_restaurant.entity.RestaurantOwner;
 import com.ss.scrumptious_restaurant.service.CategoryRepository;
 import com.ss.scrumptious_restaurant.service.RestaurantService;
 
@@ -47,6 +49,9 @@ public class RestaurantServiceTest {
 	RestaurantCategoryRepository restaurantCategoryRepository;
 	
 	@Mock
+	RestaurantOwnerRepository restaurantOwnerRepository;
+	
+	@Mock
 	CategoryRepository categoryRepository;
 	
 	@Captor
@@ -57,18 +62,27 @@ public class RestaurantServiceTest {
 	@BeforeEach
 	@Rollback(false)
 	void setUp() {
-		restaurantService = new RestaurantService(addressRepository, restaurantRepository, restaurantCategoryRepository, categoryRepository);
+		restaurantService = new RestaurantService(addressRepository, restaurantRepository, restaurantCategoryRepository, categoryRepository, restaurantOwnerRepository);
 
 	}
 	
 	@Test
 	void createNewRestaurantTest() {
+		RestaurantOwner restaurantOwner = RestaurantOwner.builder()
+				.restaurantOwnerId(UUID.randomUUID())
+				.firstName("John")
+				.lastName("Brown")
+				.phone("(111)222-3333")
+				.email("owner.brown@gmail.com")
+				.build();
+		
 		CreateRestaurantDto restaurantDto = CreateRestaurantDto.builder()
 				.name("Smoothie Palace")
 				.lineOne("123 Main St.")
 				.city("Fairfax")
 				.state("VA")
 				.zip("22031")
+				.restaurantOwnerId(restaurantOwner.getRestaurantOwnerId())
 				.build();
 		
 		Address address = Address.builder()
@@ -83,6 +97,10 @@ public class RestaurantServiceTest {
 				.name(restaurantDto.getName())
 				.address(address)
 				.build();
+		
+		
+		
+		Mockito.lenient().when(restaurantOwnerRepository.findById(restaurantOwner.getRestaurantOwnerId())).thenReturn(Optional.of(restaurantOwner));
 		
 		restaurantService.createNewRestaurant(restaurantDto);
 		

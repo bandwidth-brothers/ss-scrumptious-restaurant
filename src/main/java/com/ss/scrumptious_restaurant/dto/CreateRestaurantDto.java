@@ -1,5 +1,7 @@
 package com.ss.scrumptious_restaurant.dto;
 
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -19,4 +21,6 @@ public class CreateRestaurantDto {
 	private final String city;
 	private final String state;
 	private final String zip;
+	
+	private final UUID restaurantOwnerId;
 }

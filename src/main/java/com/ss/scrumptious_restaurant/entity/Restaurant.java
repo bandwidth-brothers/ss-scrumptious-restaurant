@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,12 +16,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,11 +44,18 @@ public class Restaurant {
     @Column(columnDefinition = "BINARY(16)", name = "restaurantId", updatable = false)
     private UUID restaurantId;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne//(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
 	@JoinColumn(name="addressId", referencedColumnName = "addressId")
 	@EqualsAndHashCode.Exclude
 	private Address address;
 
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JsonIgnore
+	@JoinColumn(name="restaurantOwnerId", referencedColumnName = "restaurantOwnerId")
+	@EqualsAndHashCode.Exclude
+	private RestaurantOwner restaurantOwner;
+	
     @NotBlank
     private String name;
 
@@ -56,6 +66,8 @@ public class Restaurant {
     @Column(name="priceCategory")
     private PriceCategory priceCategory;
 
+    // TODO: Restaurant Owner Attrib
+    
     @Builder.Default
     @Column(name="isActive")
     private Boolean isActive = true;
