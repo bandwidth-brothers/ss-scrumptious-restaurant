@@ -27,7 +27,7 @@ pipeline{
 				withAWS(region: 'us-west-2', credentials: 's3-user'){
 					s3Upload(bucket: 'scrumptious-artifacts', file: 'target/ss-scrumptious-restaurant-0.0.1-SNAPSHOT.jar', path: 'restaurant-backend.jar')
 				}
-				sh "curl --user jgreen:restaurant-backend -X POST http://ec2-54-193-221-59.us-west-1.compute.amazonaws.com:8080/job/scrumptious-restaurant-backend-deploy/build?token=restaurant-backend-tok"
+				sh "curl --user jgreen:11c1546683754f4a92d8cbf32424f83771 -X POST http://ec2-54-193-221-59.us-west-1.compute.amazonaws.com:8080/job/scrumptious-restaurant-backend-deploy/build?token=restaurant-backend-tok"
 			}
 		}
 	}
