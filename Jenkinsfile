@@ -1,4 +1,14 @@
 node{
+	stage("sonarqube"){
+		environment{
+			scannerHome = tool 'sonarqube'
+		}
+		steps{
+			withSonarQubeEnv('sonarqube'){
+				sh "${scannerHome}/bin/sonar-scanner"
+			}
+		}
+	}
 	checkout scm
 	withCredentials([string(credentialsId: 'sonarqube', variable: 'SQC')]) {
 		stage("verify"){
