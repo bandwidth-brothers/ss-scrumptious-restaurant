@@ -2,12 +2,12 @@ node{
 	checkout scm
 	withCredentials([string(credentialsId: 'sonarqube', variable: 'SQC')]) {
 		stage("verify"){
-			bat 'mvn clean verify sonar:sonar -Dsonar.login=%SQC%'
+			sh 'mvn clean verify sonar:sonar -Dsonar.login=%SQC%'
 		}
 	}
 
 	stage("build"){
-		bat 'mvn clean package'
+		sh 'mvn clean package'
 	}
 	stage("publish"){
 		withAWS(credentials:'s3-user',region:'us-west-2'){
