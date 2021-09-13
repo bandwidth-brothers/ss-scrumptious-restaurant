@@ -1,7 +1,9 @@
 pipeline{
 	agent any
 	stages{
-		checkout scm
+		stage('Checkout'){
+			checkout scm
+		}
 		stage('Analysis'){
 			environment{
 				SONARQUBE_TOKEN = credentials('sonarqube')
