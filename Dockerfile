@@ -1,3 +1,3 @@
 FROM maven:latest
-COPY target/ss-scrumptious-restaurant-0.0.1-SNAPSHOT.jar /home
-ENTRYPOINT java -jar /home/ss-scrumptious-restaurant-0.0.1-SNAPSHOT.jar
+RUN wget https://scrumptious-artifacts.s3.us-west-2.amazonaws.com/restaurant-backend.jar restaurant-backend.jar
+ENTRYPOINT java -jar restaurant-backend.jar
