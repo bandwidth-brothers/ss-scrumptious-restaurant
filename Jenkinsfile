@@ -12,7 +12,7 @@ pipeline{
 				SONARQUBE_TOKEN = credentials('sonarqube')
 			}
 			steps{
-				sh "./mvnw sonar:sonar \\\n" +
+				sh "./mvnw clean verify sonar:sonar \\\n" +
 					"  -Dsonar.host.url=http://sonarqube:9000 \\\n" +
 					"  -Dsonar.login=${SONARQUBE_TOKEN}"
 			}
