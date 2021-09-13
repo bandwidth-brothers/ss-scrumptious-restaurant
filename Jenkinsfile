@@ -3,7 +3,7 @@ node{
 	checkout scm
 	withSonarQubeEnv('local-sonar') {
 		stage("verify"){
-			sh 'mvn clean verify sonar:sonar'
+			sh 'mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
 		}
 	}
 
