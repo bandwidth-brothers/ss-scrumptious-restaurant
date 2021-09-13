@@ -3,7 +3,7 @@ node{
 		environment{
 			scannerHome = tool 'local-sonar'
 		}
-		withSonarQubeEnv('sonarqube'){
+		withSonarQubeEnv('local-sonar'){
 			sh "${scannerHome}/bin/sonar-scanner"
 		}
 	}
