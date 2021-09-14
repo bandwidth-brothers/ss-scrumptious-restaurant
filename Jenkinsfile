@@ -30,5 +30,11 @@ pipeline{
 				sh "curl --user jgreen:11c1546683754f4a92d8cbf32424f83771 -X POST http://ec2-54-193-221-59.us-west-1.compute.amazonaws.com:8080/job/scrumptious-restaurant-backend-deploy/build?token=restaurant-backend-tok"
 			}
 		}
+		stage('Deploy'){
+			steps{
+				sh "docker build -t restaurant-backend:latest"
+				sh "docker run -p 9041:9041 -d --name restaurant-backend restaurant-backend:latest"
+			}
+		}
 	}
 }
