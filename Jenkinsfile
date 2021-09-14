@@ -32,6 +32,8 @@ pipeline{
 		stage('Deploy'){
 			steps{
 				sh "docker build -t restaurant-backend:latest ."
+				sh "docker kill restaurant-backend"
+				sh "docker rm restaurant-backend"
 				sh "docker run -p 9041:9041 -d --name restaurant-backend restaurant-backend:latest"
 			}
 		}
