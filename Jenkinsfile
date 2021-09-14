@@ -13,7 +13,7 @@ pipeline{
 			}
 			steps{
 				sh "./mvnw clean verify sonar:sonar \\\n" +
-					"  -Dsonar.host.url=http://sonarqube:9000 \\\n" +
+					"  -Dsonar.host.url=http://localhost:9000 \\\n" +
 					"  -Dsonar.login=${SONARQUBE_TOKEN}"
 			}
 		}
