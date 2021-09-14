@@ -31,7 +31,7 @@ pipeline{
 		}
 		stage('Deploy'){
 			steps{
-				sh "docker build -t restaurant-backend:latest"
+				sh "docker build -t restaurant-backend:latest ."
 				sh "docker run -p 9041:9041 -d --name restaurant-backend restaurant-backend:latest"
 			}
 		}
