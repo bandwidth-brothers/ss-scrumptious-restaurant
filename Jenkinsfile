@@ -32,8 +32,10 @@ pipeline{
 		stage('Deploy'){
 			steps{
 				sh "docker build -t restaurant-backend:latest ."
-				docker.withRegistry("419106922284.dkr.ecr.us-east-2.amazonaws.com","ecr:us-east-2:aws-creds"){
-					docker.image("restaurant-backend:latest").push()
+				script{
+					docker.withRegistry("419106922284.dkr.ecr.us-east-2.amazonaws.com","ecr:us-east-2:aws-creds"){
+						docker.image("restaurant-backend:latest").push()
+					}
 				}
 			}
 		}
