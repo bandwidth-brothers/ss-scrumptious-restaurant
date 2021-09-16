@@ -37,7 +37,7 @@ pipeline{
 						docker.image("ss-scrumptious-repo:restaurant-backend").push()
 					}
 				}
-				sh "docker image rm ss-scrumptious-repo:restaurant-backend"
+				sh "docker prune -a"
 			}
 		}
 	}
