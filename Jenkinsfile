@@ -24,8 +24,8 @@ pipeline{
 		}
 		stage('Publish'){
 			steps{
-				withAWS(region: 'us-west-2', credentials: 'aws-creds'){
-					s3Upload(bucket: 'scrumptious-artifacts', file: 'target/ss-scrumptious-restaurant-0.0.1-SNAPSHOT.jar', path: 'restaurant-backend.jar')
+				withAWS(region: 'us-east-2', credentials: 'aws-creds'){
+					s3Upload(bucket: 'ss-scrumptious-artifacts', file: 'target/ss-scrumptious-restaurant-0.0.1-SNAPSHOT.jar', path: 'restaurant-backend.jar')
 				}
 			}
 		}
