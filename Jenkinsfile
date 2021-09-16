@@ -38,7 +38,7 @@ pipeline{
 					}
 				}
 				sh "docker image rm ss-scrumptious-repo:restaurant-backend"
-				sh "docker image rm https://419106922284.dkr.ecr.us-east-2.amazonaws.com/ss-scrumptious-repo:backend"
+				sh "docker image rm 419106922284.dkr.ecr.us-east-2.amazonaws.com/ss-scrumptious-repo:backend"
 			}
 		}
 	}
