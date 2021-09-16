@@ -31,10 +31,10 @@ pipeline{
 		}
 		stage('Deploy'){
 			steps{
-				sh "docker build -t restaurant-backend:latest ."
+				sh "docker build -t ss-scrumptious-repo/restaurant-backend:latest ."
 				script{
-					docker.withRegistry("https://419106922284.dkr.ecr.us-east-2.amazonaws.com/ss-scrumptious-repo","ecr:us-east-2:aws-creds"){
-						docker.image("restaurant-backend:latest").push()
+					docker.withRegistry("https://419106922284.dkr.ecr.us-east-2.amazonaws.com/","ecr:us-east-2:aws-creds"){
+						docker.image("ss-scrumptious-repo/restaurant-backend:latest").push()
 					}
 				}
 			}
