@@ -37,7 +37,8 @@ pipeline{
 						docker.image("ss-scrumptious-repo:restaurant-backend").push()
 					}
 				}
-				sh "docker system prune --all"
+				sh "docker image rm ss-scrumptious-repo:restaurant-backend"
+				sh "docker image rm https://419106922284.dkr.ecr.us-east-2.amazonaws.com/ss-scrumptious-repo:backend"
 			}
 		}
 	}
