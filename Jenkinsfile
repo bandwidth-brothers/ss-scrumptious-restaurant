@@ -32,9 +32,9 @@ pipeline{
 		stage('Deploy'){
 			steps{
 				sh "docker build -t restaurant-backend:latest ."
-				sh "docker kill restaurant-backend"
-				sh "docker rm restaurant-backend"
-				sh "docker run -p 9041:9041 -d --name restaurant-backend restaurant-backend:latest"
+				docker.withRegistry("419106922284.dkr.ecr.us-east-2.amazonaws.com","ecr:us-east-2:aws-creds"){
+					docker.image("restaurant-backend:latest").push()
+				}
 			}
 		}
 	}
