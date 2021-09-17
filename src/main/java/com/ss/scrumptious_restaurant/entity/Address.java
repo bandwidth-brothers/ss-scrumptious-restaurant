@@ -28,31 +28,31 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Address {
-	
+
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "BINARY(16)", name = "addressId", updatable = false)
     private UUID addressId;
-	
+
 	@OneToOne(mappedBy = "address")
     @EqualsAndHashCode.Exclude
     @JsonIgnore
 	private Restaurant restaurant;
-	
+
 	@NotBlank
     @Column(name="lineOne")
 	private String lineOne;
-	
+
 	@Nullable
 	@Column(name="lineTwo")
 	private String lineTwo;
-	
+
 	@NotBlank
 	private String city;
-	
+
 	@NotBlank
 	private String state;
-	
+
 	@NotBlank
 	private String zip;
 }

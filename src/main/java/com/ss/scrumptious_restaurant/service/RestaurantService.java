@@ -1,6 +1,7 @@
 package com.ss.scrumptious_restaurant.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,7 @@ public class RestaurantService {
 	private RestaurantRepository restaurantRepository;
 	private RestaurantCategoryRepository restaurantCategoryRepository;
 	private CategoryRepository categoryRepository;
-	
+
 	@Transactional
 	public Restaurant createNewRestaurant(@Valid @RequestBody CreateRestaurantDto createRestaurantDto) {
 		Address address = Address.builder()
@@ -40,27 +41,27 @@ public class RestaurantService {
 				.state(createRestaurantDto.getState())
 				.zip(createRestaurantDto.getZip())
 				.build();
-		
-		
+
+
 		addressRepository.save(address);
-		
+
 		Restaurant restaurant = Restaurant.builder()
 				.name(createRestaurantDto.getName())
 				.address(address)
 				.build();
-		
+
 		restaurantRepository.save(restaurant);
-		
+
 		return restaurant;
 	}
 
 	@Transactional
 	public List<RestaurantCategory> createNewRestaurantCategories(
 			@Valid ListRestaurantCategoryDto listRestaurantCategoryDto, UUID restaurantId) {
-		
-		
-		Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow();
-		
+
+
+		Optional<Restaurant> restaurant = restaurantRepository.findById(restaurantId);
+
 		List<RestaurantCategory> restaurantCategories = listRestaurantCategoryDto.getRestaurantCategories()
 			.stream()
 			.filter(rCDto -> {
@@ -70,14 +71,14 @@ public class RestaurantService {
 				RestaurantCategory rC =  RestaurantCategory.builder()
 						.type(rCDto.getType())
 						.build();
-				restaurant.addRestaurantCategory(rC);
-				return rC;				
+				restaurant.get().addRestaurantCategory(rC);
+				return rC;
 			})
 			.collect(Collectors.toList());
-		
+
 		restaurantCategoryRepository.saveAll(restaurantCategories);
-		restaurantRepository.save(restaurant);
-		
+		restaurantRepository.save(restaurant.get());
+
 		return restaurantCategories;
 	}
 

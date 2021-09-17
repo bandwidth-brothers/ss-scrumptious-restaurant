@@ -41,7 +41,7 @@ public class Restaurant {
     @Column(columnDefinition = "BINARY(16)", name = "restaurantId", updatable = false)
     private UUID restaurantId;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="addressId", referencedColumnName = "addressId")
 	@EqualsAndHashCode.Exclude
 	private Address address;
@@ -51,7 +51,7 @@ public class Restaurant {
 
     @Builder.Default
     private Float rating = 0.f;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(name="priceCategory")
     private PriceCategory priceCategory;
@@ -59,10 +59,10 @@ public class Restaurant {
     @Builder.Default
     @Column(name="isActive")
     private Boolean isActive = true;
-    
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-    		name="RESTAURANT_CATEGORY_REL", 
+    		name="RESTAURANT_CATEGORY_REL",
     		joinColumns = @JoinColumn(name = "restaurantId"),
     		inverseJoinColumns = @JoinColumn(name = "restaurantCategoryId"))
     @EqualsAndHashCode.Exclude
@@ -74,7 +74,7 @@ public class Restaurant {
     @EqualsAndHashCode.Exclude
     @Builder.Default
     private Set<MenuItem> menuItems = new HashSet<>();
-    
+
 	public void addRestaurantCategory(RestaurantCategory rC) {
 		restaurantCategories.add(rC);
 	}

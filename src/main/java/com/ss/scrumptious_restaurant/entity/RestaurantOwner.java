@@ -24,26 +24,25 @@ import lombok.NoArgsConstructor;
 public class RestaurantOwner {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(columnDefinition = "BINARY(16)", name = "restaurantOwnerId", updatable = false)
+	@Column(columnDefinition = "BINARY(16)", name = "restaurantOwnerId")
 	private UUID restaurantOwnerId;
-	
-	
+
+
 	@NotBlank
 	@Column(name = "firstName", nullable = false)
 	private String firstName;
-	
+
 	@NotBlank
 	@Column(name = "lastName", nullable = false)
 	private String lastName;
-	
+
 	@NotBlank
 	@Column(name = "phone", nullable = false)
 	private String phone;
-	
+
 	@NotBlank
 	@Column(name = "email", nullable = false)
 	private String email;
-	
-	
+
+
 }

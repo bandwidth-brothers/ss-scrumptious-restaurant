@@ -16,13 +16,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
 
-@Configuration
+//@Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	
+
     private final SecurityConstants securityConstants;
 
 
@@ -31,26 +31,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/swagger-ui/**", "/v3/api-docs/**");
     }
 
-    
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http.cors().and().csrf().disable()
         		.authorizeRequests()
                 .antMatchers("/h2-console/*").permitAll()
-                .anyRequest().authenticated()
+//                .antMatchers("/test").permitAll()
+//                .anyRequest().authenticated()
                 .and()
-                .addFilter(new JwtAuthenticationVerificationFilter(authenticationManager(), securityConstants))
+//                .addFilter(new JwtAuthenticationVerificationFilter(authenticationManager(), securityConstants))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
-	
-	@Bean PasswordEncoder passwordEncoder(){ 
+
+	@Bean PasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder();
 	}
-	 
 
-	 
 
-	 
+
+
+
 }

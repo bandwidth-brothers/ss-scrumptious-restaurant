@@ -1,5 +1,6 @@
 package com.ss.scrumptious_restaurant.service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -21,21 +22,21 @@ public class MenuService {
 
 	private RestaurantRepository restaurantRepository;
 	private MenuItemRepository menuItemRepository;
-	
+
 	@Transactional
 	public MenuItem createNewMenuItem(@Valid CreateMenuItemDto createMenuItemDto, UUID restaurantId) {
-		
-		Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow();
-		
+
+		Optional<Restaurant> restaurant = restaurantRepository.findById(restaurantId);
+
 		MenuItem menuItem = MenuItem.builder()
 				.name(createMenuItemDto.getName())
 				.price(Money.of(createMenuItemDto.getPrice(), "USD"))
 				.isAvailable(createMenuItemDto.getIsAvailable())
-				.restaurant(restaurant)
+				.restaurant(restaurant.get())
 				.build();
-		
+
 		menuItemRepository.save(menuItem);
-		
+
 		return menuItem;
 	}
 
