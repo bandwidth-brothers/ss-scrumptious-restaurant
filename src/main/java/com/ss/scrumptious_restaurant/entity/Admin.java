@@ -1,7 +1,5 @@
 package com.ss.scrumptious_restaurant.entity;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -9,27 +7,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "RESTAURANT_OWNER")
+@Table(name = "ADMIN")
 @Builder
-public class RestaurantOwner {
+public class Admin {
 
 	@Id
-	@Column(columnDefinition = "BINARY(16)", name = "restaurantOwnerId")
-	private UUID restaurantOwnerId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(columnDefinition = "BINARY(16)", name = "adminId", updatable = false)
+	private UUID adminId;
 	
 	
 	@NotBlank
@@ -48,8 +45,4 @@ public class RestaurantOwner {
 	@Column(name = "email", nullable = false)
 	private String email;
 	
-	@OneToMany(mappedBy="restaurantOwner")
-	@EqualsAndHashCode.Exclude
-    @Builder.Default
-	private Set<Restaurant> restaurants = new HashSet<>();
 }

@@ -25,10 +25,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
     private final SecurityConstants securityConstants;
 
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+            // other public endpoints of your API may be appended to this array
+    };
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/swagger-ui/**", "/v3/api-docs/**");
+    	//web.ignoring().antMatchers(AUTH_WHITELIST);
     }
 
     
@@ -38,6 +52,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
         		.authorizeRequests()
                 .antMatchers("/h2-console/*").permitAll()
+                .antMatchers("/owner/register/**").permitAll()
+                .antMatchers("/admin/register/**").permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthenticationVerificationFilter(authenticationManager(), securityConstants))

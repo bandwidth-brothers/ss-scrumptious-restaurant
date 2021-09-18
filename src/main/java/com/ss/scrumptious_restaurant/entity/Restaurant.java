@@ -23,7 +23,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,16 +43,14 @@ public class Restaurant {
     @Column(columnDefinition = "BINARY(16)", name = "restaurantId", updatable = false)
     private UUID restaurantId;
 
-	@OneToOne//(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="addressId", referencedColumnName = "addressId")
 	@EqualsAndHashCode.Exclude
 	private Address address;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JsonIgnore
-	@JoinColumn(name="restaurantOwnerId", referencedColumnName = "restaurantOwnerId")
-	@EqualsAndHashCode.Exclude
+	@JoinColumn(
+			name="restaurantOwnerId", referencedColumnName = "restaurantOwnerId")
 	private RestaurantOwner restaurantOwner;
 	
     @NotBlank
@@ -61,20 +58,18 @@ public class Restaurant {
 
     @Builder.Default
     private Float rating = 0.f;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(name="priceCategory")
     private PriceCategory priceCategory;
 
-    // TODO: Restaurant Owner Attrib
-    
     @Builder.Default
     @Column(name="isActive")
     private Boolean isActive = true;
-    
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-    		name="RESTAURANT_CATEGORY_REL", 
+    		name="RESTAURANT_CATEGORY_REL",
     		joinColumns = @JoinColumn(name = "restaurantId"),
     		inverseJoinColumns = @JoinColumn(name = "restaurantCategoryId"))
     @EqualsAndHashCode.Exclude
@@ -86,7 +81,7 @@ public class Restaurant {
     @EqualsAndHashCode.Exclude
     @Builder.Default
     private Set<MenuItem> menuItems = new HashSet<>();
-    
+
 	public void addRestaurantCategory(RestaurantCategory rC) {
 		restaurantCategories.add(rC);
 	}
