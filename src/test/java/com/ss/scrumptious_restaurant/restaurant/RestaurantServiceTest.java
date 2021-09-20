@@ -1,39 +1,8 @@
 package com.ss.scrumptious_restaurant.restaurant;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.verify;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
-
-import com.ss.scrumptious_restaurant.dao.AddressRepository;
-import com.ss.scrumptious_restaurant.dao.CategoryRepository;
-import com.ss.scrumptious_restaurant.dao.RestaurantCategoryRepository;
-import com.ss.scrumptious_restaurant.dao.RestaurantOwnerRepository;
-import com.ss.scrumptious_restaurant.dao.RestaurantRepository;
-import com.ss.scrumptious_restaurant.dto.CreateRestaurantDto;
-import com.ss.scrumptious_restaurant.dto.ListRestaurantCategoryDto;
-import com.ss.scrumptious_restaurant.dto.RestaurantCategoryDto;
-import com.ss.scrumptious_restaurant.entity.Address;
-import com.ss.scrumptious_restaurant.entity.Restaurant;
-import com.ss.scrumptious_restaurant.entity.RestaurantCategory;
-import com.ss.scrumptious_restaurant.entity.RestaurantOwner;
-import com.ss.scrumptious_restaurant.service.RestaurantServiceImpl;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)

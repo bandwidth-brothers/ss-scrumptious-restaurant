@@ -30,9 +30,9 @@ import lombok.NoArgsConstructor;
 public class Address {
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "BINARY(16)", name = "addressId", updatable = false)
-    private UUID addressId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "address_id", updatable = false)
+    private Long addressId;
 	
 	@OneToOne(mappedBy = "address")
     @EqualsAndHashCode.Exclude

@@ -8,4 +8,5 @@ import com.ss.scrumptious_restaurant.entity.RestaurantCategory;
 
 public interface RestaurantCategoryRepository extends JpaRepository<RestaurantCategory, UUID> {
 
+	boolean existsRestaurantCategoryByType(String type);
 }

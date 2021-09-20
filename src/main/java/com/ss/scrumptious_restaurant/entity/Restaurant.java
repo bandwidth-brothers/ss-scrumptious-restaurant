@@ -44,7 +44,7 @@ public class Restaurant {
     private UUID restaurantId;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="addressId", referencedColumnName = "addressId")
+	@JoinColumn(name="address_id", referencedColumnName = "address_id")
 	@EqualsAndHashCode.Exclude
 	private Address address;
 

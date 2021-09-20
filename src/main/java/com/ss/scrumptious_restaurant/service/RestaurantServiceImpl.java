@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.ss.scrumptious_restaurant.dao.AddressRepository;
-import com.ss.scrumptious_restaurant.dao.CategoryRepository;
 import com.ss.scrumptious_restaurant.dao.RestaurantCategoryRepository;
 import com.ss.scrumptious_restaurant.dao.RestaurantOwnerRepository;
 import com.ss.scrumptious_restaurant.dao.RestaurantRepository;
@@ -32,7 +31,6 @@ public class RestaurantServiceImpl implements RestaurantService{
 	private AddressRepository addressRepository;
 	private RestaurantRepository restaurantRepository;
 	private RestaurantCategoryRepository restaurantCategoryRepository;
-	private CategoryRepository categoryRepository;
 	private RestaurantOwnerRepository restaurantOwnerRepository;
 	
 	@Transactional
@@ -72,7 +70,7 @@ public class RestaurantServiceImpl implements RestaurantService{
 		List<RestaurantCategory> restaurantCategories = listRestaurantCategoryDto.getRestaurantCategories()
 			.stream()
 			.filter(rCDto -> {
-				return !categoryRepository.existsRestaurantCategoryByType(rCDto.getType());
+				return !restaurantCategoryRepository.existsRestaurantCategoryByType(rCDto.getType());
 			})
 			.map( rCDto -> {
 				RestaurantCategory rC =  RestaurantCategory.builder()
