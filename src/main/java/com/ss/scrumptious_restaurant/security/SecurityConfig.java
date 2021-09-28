@@ -49,16 +49,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.cors().and().csrf().disable()
+        http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        		.and().cors()
+        		.and()
+        		.addFilter(new JwtAuthenticationVerificationFilter(authenticationManager(), securityConstants))
         		.authorizeRequests()
                 .antMatchers("/h2-console/*").permitAll()
                 .antMatchers("/owner/register/**").permitAll()
                 .antMatchers("/admin/register/**").permitAll()
                 .antMatchers(AUTH_WHITELIST).permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .addFilter(new JwtAuthenticationVerificationFilter(authenticationManager(), securityConstants))
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .anyRequest().authenticated();
     }
 
 	

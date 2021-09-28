@@ -31,8 +31,8 @@ public class Address {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "address_id", updatable = false)
-    private Long addressId;
+    @Column(name = "id", updatable = false)
+    private Long id;
 	
 	@OneToOne(mappedBy = "address")
     @EqualsAndHashCode.Exclude
@@ -40,11 +40,11 @@ public class Address {
 	private Restaurant restaurant;
 	
 	@NotBlank
-    @Column(name="lineOne")
+    @Column(name="line_one")
 	private String lineOne;
 	
 	@Nullable
-	@Column(name="lineTwo")
+	@Column(name="line_two")
 	private String lineTwo;
 	
 	@NotBlank

@@ -15,7 +15,7 @@ public class RestaurantServiceTest {
 //	AddressRepository addressRepository;
 //	
 //	@Mock
-//	RestaurantCategoryRepository restaurantCategoryRepository;
+//	CuisineRepository restaurantCategoryRepository;
 //	
 //	@Mock
 //	RestaurantOwnerRepository restaurantOwnerRepository;
@@ -24,7 +24,7 @@ public class RestaurantServiceTest {
 //	CategoryRepository categoryRepository;
 //	
 //	@Captor
-//	private ArgumentCaptor<List<RestaurantCategory>> captor;
+//	private ArgumentCaptor<List<Cuisine>> captor;
 //	
 //	private RestaurantServiceImpl restaurantServiceImpl;
 //		
@@ -117,14 +117,14 @@ public class RestaurantServiceTest {
 //				.type("Drinks")
 //				.build();
 //		
-//		RestaurantCategory catOne =  RestaurantCategory.builder()
+//		Cuisine catOne =  Cuisine.builder()
 //				.type(catOneDto.getType())
 //				.build();
 //		
-//		RestaurantCategory catTwo =  RestaurantCategory.builder()
+//		Cuisine catTwo =  Cuisine.builder()
 //				.type(catTwoDto.getType())
 //				.build();
-//		List<RestaurantCategory> restaurantCategories = new ArrayList<>(Arrays.asList(catOne, catTwo));
+//		List<Cuisine> restaurantCategories = new ArrayList<>(Arrays.asList(catOne, catTwo));
 //		
 //		List<RestaurantCategoryDto> listCategory = new ArrayList<>(Arrays.asList(catOneDto, catTwoDto));
 //		ListRestaurantCategoryDto listRestaurantCategoryDto = ListRestaurantCategoryDto.builder()
@@ -139,7 +139,7 @@ public class RestaurantServiceTest {
 //		verify(restaurantCategoryRepository).saveAll(captor.capture());
 //		verify(restaurantRepository).save(restaurantArgumentCaptor.capture());
 //		
-//		List<RestaurantCategory> capturedCategories = captor.getValue();
+//		List<Cuisine> capturedCategories = captor.getValue();
 //		Restaurant capturedRestaurant = restaurantArgumentCaptor.getValue();
 //		
 //		

@@ -33,7 +33,7 @@ public class AdminServiceImpl implements AdminService{
 
         System.out.println("cline id: "  + resp.getBody());
 		Admin admin = Admin.builder()
-				.adminId(resp.getBody())
+				.id(resp.getBody())
 				.firstName(adminDto.getFirstName())
 				.lastName(adminDto.getLastName())
 				.email(adminDto.getEmail())
@@ -43,9 +43,9 @@ public class AdminServiceImpl implements AdminService{
 		
 		Admin adminRet = adminRepository.save(admin);
 
-        System.out.println("owner id: " + adminRet.getAdminId());
+        System.out.println("owner id: " + adminRet.getId());
 
-        return adminRet.getAdminId();
+        return adminRet.getId();
 	}
 	
 	// TODO GET DETAILS

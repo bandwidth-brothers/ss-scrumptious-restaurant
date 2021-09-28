@@ -8,7 +8,6 @@ import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,18 +18,18 @@ import com.ss.scrumptious_restaurant.dto.UserIdDto;
 import com.ss.scrumptious_restaurant.entity.Admin;
 import com.ss.scrumptious_restaurant.entity.Restaurant;
 import com.ss.scrumptious_restaurant.entity.RestaurantOwner;
-import com.ss.scrumptious_restaurant.service.AdminServiceImpl;
-import com.ss.scrumptious_restaurant.service.RestaurantServiceImpl;
+import com.ss.scrumptious_restaurant.service.AdminService;
+import com.ss.scrumptious_restaurant.service.RestaurantService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins="*", exposedHeaders="Location")
+//@CrossOrigin(exposedHeaders="Location")
 public class RestaurantAdminController {
 
-	private final AdminServiceImpl adminService;
-	private final RestaurantServiceImpl restaurantService;
+	private final AdminService adminService;
+	private final RestaurantService restaurantService;
 	
 	@PostMapping("/admin/register")
 	public ResponseEntity<UUID> createAdmin(
@@ -50,7 +49,7 @@ public class RestaurantAdminController {
 	}
 	
 	@GetMapping("/admin/restaurants")
-	@PreAuthorize("hasAnyRole('EMPLOYEE','ADMIN')")
+	@PreAuthorize("hasAnyRole('EMPLOYEE','ADMIN','CUSTOMER')")
 	public ResponseEntity<List<Restaurant>> getAllRestaurants(){
 		List<Restaurant> restaurants = restaurantService.getAllRestaurants();
 

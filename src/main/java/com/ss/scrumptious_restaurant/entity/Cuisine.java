@@ -6,8 +6,10 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -20,37 +22,24 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name="CUISINE")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "OWNER")
+@AllArgsConstructor
 @Builder
-public class RestaurantOwner {
+public class Cuisine {
 
 	@Id
-	@Column(columnDefinition = "BINARY(16)", name = "id")
-	private UUID id;
-	
-	
-	@NotBlank
-	@Column(name = "first_name", nullable = false)
-	private String firstName;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", updatable = false)
+	private Long id;
 	
 	@NotBlank
-	@Column(name = "last_name", nullable = false)
-	private String lastName;
+	@Column(unique = true)
+	private String type;
 	
-	@NotBlank
-	@Column(name = "phone", nullable = false)
-	private String phone;
-	
-	@NotBlank
-	@Column(name = "email", nullable = false)
-	private String email;
-	
-	@OneToMany(mappedBy="owner")
 	@JsonIgnore
+	@ManyToMany(mappedBy = "cuisines")
 	@EqualsAndHashCode.Exclude
-    @Builder.Default
 	private Set<Restaurant> restaurants = new HashSet<>();
 }

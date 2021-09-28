@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.ss.scrumptious_restaurant.entity.Restaurant;
 
 @Repository
-public interface RestaurantRepository extends JpaRepository<Restaurant, UUID> {
+public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
 	/*
 	 * Finds a restaurant by using the name as a search criteria.

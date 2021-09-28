@@ -46,12 +46,12 @@ public class RestaurantOwnerServiceImpl implements RestaurantOwnerService {
                 .email(ownerDto.getEmail())
                 .phone(ownerDto.getPhone())
                 .build();
-        restaurantOwner.setRestaurantOwnerId(resp.getBody());
+        restaurantOwner.setId(resp.getBody());
         RestaurantOwner owner = restaurantOwnerRepository.save(restaurantOwner);
 
-        System.out.println("owner id: " + owner.getRestaurantOwnerId());
+        System.out.println("owner id: " + owner.getId());
 
-        return owner.getRestaurantOwnerId();
+        return owner.getId();
     }
 
     @Override
@@ -74,17 +74,18 @@ public class RestaurantOwnerServiceImpl implements RestaurantOwnerService {
         if (!owner.get().getEmail().equals(updateDto.getEmail())){
 
             Optional<RestaurantOwner> existOwner = restaurantOwnerRepository.findByEmail(updateDto.getEmail());
-            if (existOwner.isPresent() && !existOwner.get().getRestaurantOwnerId().equals(uid)){
+            if (existOwner.isPresent() && !existOwner.get().getId().equals(uid)){
                 throw new IllegalStateException("Email is already in use");
             }
 
             Optional<User> existUser = userRepository.findByEmail(updateDto.getEmail());
-            if (existUser.isPresent() && !existUser.get().getUserId().equals(uid)){
+            if (existUser.isPresent() && !existUser.get().getId().equals(uid)){
                 throw new IllegalStateException("Email is already in use");
             }
         }
 
-        RestaurantOwner newOwner = RestaurantOwner.builder().restaurantOwnerId(uid)
+        RestaurantOwner newOwner = RestaurantOwner.builder()
+        		.id(uid)
                 .firstName(updateDto.getFirstName())
                 .lastName(updateDto.getLastName())
                 .email(updateDto.getEmail())

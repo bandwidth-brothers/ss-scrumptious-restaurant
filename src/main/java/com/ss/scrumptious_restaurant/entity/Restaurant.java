@@ -39,9 +39,9 @@ import lombok.NoArgsConstructor;
 public class Restaurant {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "BINARY(16)", name = "restaurantId", updatable = false)
-    private UUID restaurantId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column( name = "id", updatable = false)
+    private Long id;
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="address_id", referencedColumnName = "address_id")
@@ -50,8 +50,8 @@ public class Restaurant {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(
-			name="restaurantOwnerId", referencedColumnName = "restaurantOwnerId")
-	private RestaurantOwner restaurantOwner;
+			name="owner_id", referencedColumnName = "id")
+	private RestaurantOwner owner;
 	
     @NotBlank
     private String name;
@@ -60,21 +60,19 @@ public class Restaurant {
     private Float rating = 0.f;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="priceCategory")
+    @Column(name="price_category")
     private PriceCategory priceCategory;
 
     @Builder.Default
-    @Column(name="isActive")
+    @Column(name="is_active")
     private Boolean isActive = true;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-    		name="RESTAURANT_CATEGORY_REL",
-    		joinColumns = @JoinColumn(name = "restaurantId"),
-    		inverseJoinColumns = @JoinColumn(name = "restaurantCategoryId"))
+    		name="RESTAURANT_CUISINE")
     @EqualsAndHashCode.Exclude
     @Builder.Default
-    private Set<RestaurantCategory> restaurantCategories = new HashSet<>();
+    private Set<Cuisine> cuisines = new HashSet<>();
 
     @OneToMany(mappedBy = "restaurant")
     @JsonIgnore
@@ -82,8 +80,8 @@ public class Restaurant {
     @Builder.Default
     private Set<MenuItem> menuItems = new HashSet<>();
 
-	public void addRestaurantCategory(RestaurantCategory rC) {
-		restaurantCategories.add(rC);
+	public void addRestaurantCuisine(Cuisine rC) {
+		cuisines.add(rC);
 	}
 
 }

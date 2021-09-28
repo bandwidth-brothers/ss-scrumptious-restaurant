@@ -24,7 +24,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="MENU_ITEM")
+@Table(name="MENUITEM")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,13 +32,13 @@ import lombok.NoArgsConstructor;
 public class MenuItem {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(columnDefinition = "BINARY(16)", name = "menuItemId", updatable = false)
-	private UUID menuItemId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", updatable = false)
+	private Long id;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(
-			name="restaurantId", referencedColumnName = "restaurantId")
+			name="restaurant_id", referencedColumnName = "id")
 	Restaurant restaurant;
 	
 	@NotBlank
@@ -52,5 +52,6 @@ public class MenuItem {
     private MonetaryAmount price;
 	
 	@Builder.Default
+	@Column(name="is_available")
 	private Boolean isAvailable = false;
 }

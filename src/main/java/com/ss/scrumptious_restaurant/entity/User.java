@@ -43,8 +43,8 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "BINARY(16)", name = "userId", updatable = false)
-    private UUID userId;
+    @Column(columnDefinition = "BINARY(16)", name = "id", updatable = false)
+    private UUID id;
 
     @NotBlank
     @Email
@@ -61,12 +61,12 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole userRole = UserRole.DEFAULT;
 
-    @Column(name="createdAt", updatable = false)
+    @Column(name="created_at", updatable = false)
     @CreationTimestamp
     private ZonedDateTime creationDateTime;
 
     @UpdateTimestamp
-	@Column(name="updatedAt")
+	@Column(name="updated_at")
     private ZonedDateTime lastModifiedDateTime;
 
 	@Default

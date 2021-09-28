@@ -25,16 +25,16 @@ public class Admin {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(columnDefinition = "BINARY(16)", name = "adminId", updatable = false)
-	private UUID adminId;
+	@Column(columnDefinition = "BINARY(16)", name = "id", updatable = false)
+	private UUID id;
 	
 	
 	@NotBlank
-	@Column(name = "firstName", nullable = false)
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
 	
 	@NotBlank
-	@Column(name = "lastName", nullable = false)
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
 	
 	@NotBlank

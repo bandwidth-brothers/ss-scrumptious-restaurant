@@ -12,14 +12,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.ss.scrumptious_restaurant.dao.AddressRepository;
-import com.ss.scrumptious_restaurant.dao.RestaurantCategoryRepository;
+import com.ss.scrumptious_restaurant.dao.CuisineRepository;
 import com.ss.scrumptious_restaurant.dao.RestaurantOwnerRepository;
 import com.ss.scrumptious_restaurant.dao.RestaurantRepository;
 import com.ss.scrumptious_restaurant.dto.CreateRestaurantDto;
 import com.ss.scrumptious_restaurant.dto.ListRestaurantCategoryDto;
 import com.ss.scrumptious_restaurant.entity.Address;
+import com.ss.scrumptious_restaurant.entity.Cuisine;
 import com.ss.scrumptious_restaurant.entity.Restaurant;
-import com.ss.scrumptious_restaurant.entity.RestaurantCategory;
 import com.ss.scrumptious_restaurant.entity.RestaurantOwner;
 
 import lombok.AllArgsConstructor;
@@ -30,7 +30,7 @@ public class RestaurantServiceImpl implements RestaurantService{
 
 	private AddressRepository addressRepository;
 	private RestaurantRepository restaurantRepository;
-	private RestaurantCategoryRepository restaurantCategoryRepository;
+	private CuisineRepository cuisineRepository;
 	private RestaurantOwnerRepository restaurantOwnerRepository;
 	
 	@Transactional
@@ -51,7 +51,7 @@ public class RestaurantServiceImpl implements RestaurantService{
 		Restaurant restaurant = Restaurant.builder()
 				.name(createRestaurantDto.getName())
 				.address(address)
-				.restaurantOwner(restaurantOwner)
+				.owner(restaurantOwner)
 				.build();
 				
 		restaurantRepository.save(restaurant);
@@ -60,31 +60,31 @@ public class RestaurantServiceImpl implements RestaurantService{
 	}
 
 	@Transactional
-	public List<RestaurantCategory> createNewRestaurantCategories(
-			@Valid ListRestaurantCategoryDto listRestaurantCategoryDto, UUID restaurantId) {
+	public List<Cuisine> createNewRestaurantCategories(
+			@Valid ListRestaurantCategoryDto listRestaurantCategoryDto, Long restaurantId) {
 		
 		
 		Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow();
 		
 		// TODO: Make Category Unique so Different restaurants could associate with category	
-		List<RestaurantCategory> restaurantCategories = listRestaurantCategoryDto.getRestaurantCategories()
+		List<Cuisine> cuisines = listRestaurantCategoryDto.getRestaurantCategories()
 			.stream()
 			.filter(rCDto -> {
-				return !restaurantCategoryRepository.existsRestaurantCategoryByType(rCDto.getType());
+				return !cuisineRepository.existsRestaurantCategoryByType(rCDto.getType());
 			})
 			.map( rCDto -> {
-				RestaurantCategory rC =  RestaurantCategory.builder()
+				Cuisine rC =  Cuisine.builder()
 						.type(rCDto.getType())
 						.build();
-				restaurant.addRestaurantCategory(rC);
+				restaurant.addRestaurantCuisine(rC);
 				return rC;				
 			})
 			.collect(Collectors.toList());
 		
-		restaurantCategoryRepository.saveAll(restaurantCategories);
+		cuisineRepository.saveAll(cuisines);
 		restaurantRepository.save(restaurant);
 		
-		return restaurantCategories;
+		return cuisines;
 	}
 
 	public List<Restaurant> getAllRestaurants() {

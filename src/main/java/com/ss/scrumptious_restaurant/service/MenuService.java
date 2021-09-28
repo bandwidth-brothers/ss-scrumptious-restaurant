@@ -1,12 +1,25 @@
 package com.ss.scrumptious_restaurant.service;
 
-import java.util.UUID;
+import java.util.List;
+import java.util.Set;
 
 import com.ss.scrumptious_restaurant.dto.CreateMenuItemDto;
 import com.ss.scrumptious_restaurant.entity.MenuItem;
 
 public interface MenuService {
 
-	MenuItem createNewMenuItem(CreateMenuItemDto createMenuItemDto, UUID restaurantId);
+	MenuItem createNewMenuItem(CreateMenuItemDto createMenuItemDto, Long restaurantId);
+
+
+	List<MenuItem> getAllMenuItems();
+	List<MenuItem> getAllMenuItemsFromRestaurant(Long restaurantId);
+
+	
+
+	MenuItem getMenuItemFromRestaurant(Long restId, Long itemId);
+
+
+	List<MenuItem> searchMenuItems(String search);
+	List<MenuItem> searchMenuItemsFromRestaurant(String search, Long restaurantId);
 
 }

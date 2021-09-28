@@ -17,16 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ss.scrumptious_restaurant.dto.CreateRestaurantOwnerDto;
 import com.ss.scrumptious_restaurant.entity.RestaurantOwner;
-import com.ss.scrumptious_restaurant.service.RestaurantOwnerServiceImpl;
+import com.ss.scrumptious_restaurant.service.RestaurantOwnerService;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
 //@RequestMapping("/restaurant")
-@CrossOrigin(origins="*", exposedHeaders="Location")
+//@CrossOrigin(exposedHeaders="Location")
 public class RestaurantOwnerController {
-	private final RestaurantOwnerServiceImpl restaurantOwnerService;
+	private final RestaurantOwnerService restaurantOwnerService;
 
 
 
