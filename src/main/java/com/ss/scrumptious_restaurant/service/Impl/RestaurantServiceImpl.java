@@ -55,12 +55,14 @@ public class RestaurantServiceImpl implements RestaurantService {
     public List<Cuisine> createNewRestaurantCategories(
             @Valid ListRestaurantCategoryDto listRestaurantCategoryDto, Long restaurantId) {
 
+
+
         Optional<Restaurant> restaurant = restaurantRepository.findById(restaurantId);
 
         List<Cuisine> restaurantCategories = listRestaurantCategoryDto.getRestaurantCategories()
                 .stream()
                 .filter(rCDto -> {
-                    return !cuisineRepository.existsRestaurantCategoryByType(rCDto.getType());
+                    return !cuisineRepository.existsCuisineByType(rCDto.getType());
                 })
                 .map(rCDto -> {
                     Cuisine rC = Cuisine.builder()
@@ -128,7 +130,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         Restaurant restaurant = getRestaurantById_Owner(rid);
         //find unexist category and save them
         List<Cuisine> list = categoryList.stream()
-                .filter(s -> !cuisineRepository.existsRestaurantCategoryByType(s))
+                .filter(s -> !cuisineRepository.existsCuisineByType(s))
                 .map(s -> Cuisine.builder().type(s).build())
                 .collect(Collectors.toList());
         cuisineRepository.saveAll(list);

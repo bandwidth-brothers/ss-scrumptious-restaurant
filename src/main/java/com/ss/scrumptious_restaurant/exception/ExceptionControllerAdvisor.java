@@ -26,7 +26,7 @@ public class ExceptionControllerAdvisor {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalStateException.class)
-    public Map<String, Object> handleIllegalStateExceptions(IllegalStateException ex) {
+    public Map<String, Object> handleIllegalStateExceptions(IllegalArgumentException ex) {
         log.error(ex.getMessage());
         return baseResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }

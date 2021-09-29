@@ -74,12 +74,12 @@ public class RestaurantOwnerServiceImpl implements RestaurantOwnerService {
 
             Optional<RestaurantOwner> existOwner = restaurantOwnerRepository.findByEmail(updateDto.getEmail());
             if (existOwner.isPresent() && !existOwner.get().getId().equals(uid)) {
-                throw new IllegalStateException("Email is already in use");
+                throw new IllegalArgumentException("Email is already in use");
             }
 
             Optional<User> existUser = userRepository.findByEmail(updateDto.getEmail());
             if (existUser.isPresent() && !existUser.get().getId().equals(uid)) {
-                throw new IllegalStateException("Email is already in use");
+                throw new IllegalArgumentException("Email is already in use");
             } else {
                 User u = userRepository.findById(uid).get();
                 u.setEmail(updateDto.getEmail());

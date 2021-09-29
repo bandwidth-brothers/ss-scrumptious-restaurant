@@ -107,10 +107,10 @@ public class RestaurantOwnerController {
     }
 
     @PostMapping("/owner/{uid}/restaurant/{rid}/menu-items")
-    public ResponseEntity<Long> addMenuItem(@Valid @RequestBody CreateMenuItemDto createMenuItemDto,
+    public ResponseEntity<Long> addMenuItem(@Valid @RequestBody SaveMenuItemDto menuItemDto,
                                             @PathVariable Long rid,
                                             @PathVariable UUID uid) {
-        Long id = menuService.addMenuItem_Owner(createMenuItemDto, rid);
+        Long id = menuService.addMenuItem_Owner(menuItemDto, rid);
         return ResponseEntity.ok(id);
     }
 

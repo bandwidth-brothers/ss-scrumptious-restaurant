@@ -17,7 +17,6 @@ import org.javamoney.moneta.Money;
 import org.springframework.stereotype.Service;
 
 import com.ss.scrumptious_restaurant.dao.RestaurantRepository;
-import com.ss.scrumptious_restaurant.dto.CreateMenuItemDto;
 
 import lombok.AllArgsConstructor;
 
@@ -32,14 +31,14 @@ public class MenuServiceImpl implements MenuService {
     private MenuCategoryRepository menuCategoryRepository;
 
     @Transactional
-    public Menuitem createNewMenuItem(@Valid CreateMenuItemDto createMenuItemDto, Long restaurantId) {
+    public Menuitem createNewMenuItem(@Valid SaveMenuItemDto menuItemDto, Long restaurantId) {
 
         Optional<Restaurant> restaurant = restaurantRepository.findById(restaurantId);
 
         Menuitem menuItem = Menuitem.builder()
-                .name(createMenuItemDto.getName())
-                .price(Money.of(createMenuItemDto.getPrice(), "USD"))
-                .isAvailable(createMenuItemDto.getIsAvailable())
+                .name(menuItemDto.getName())
+                .price(Money.of(menuItemDto.getPrice(), "USD"))
+                .isAvailable(menuItemDto.getIsAvailable())
                 .restaurant(restaurant.get())
                 .build();
 
@@ -51,12 +50,12 @@ public class MenuServiceImpl implements MenuService {
     //"------------------------------------------------------------------------------------------"
     @Transactional
     @Override
-    public Long addMenuItem_Owner(CreateMenuItemDto createMenuItemDto, Long rid) {
+    public Long addMenuItem_Owner(SaveMenuItemDto menuItemDto, Long rid) {
         Restaurant r = restaurantService.getRestaurantById_Owner(rid);
         Menuitem menuItem = Menuitem.builder()
-                .name(createMenuItemDto.getName())
-                .price(Money.of(createMenuItemDto.getPrice(), "USD"))
-                .isAvailable(createMenuItemDto.getIsAvailable())
+                .name(menuItemDto.getName())
+                .price(Money.of(menuItemDto.getPrice(), "USD"))
+                .isAvailable(menuItemDto.getIsAvailable())
                 .restaurant(r)
                 .build();
         menuItemRepository.save(menuItem);

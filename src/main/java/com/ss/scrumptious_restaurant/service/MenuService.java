@@ -1,6 +1,5 @@
 package com.ss.scrumptious_restaurant.service;
 
-import com.ss.scrumptious_restaurant.dto.CreateMenuItemDto;
 import com.ss.scrumptious_restaurant.dto.SaveMenuItemDto;
 import com.ss.scrumptious_restaurant.entity.MenuCategory;
 import com.ss.scrumptious_restaurant.entity.Menuitem;
@@ -9,7 +8,7 @@ import com.ss.scrumptious_restaurant.entity.Tag;
 import java.util.List;
 
 public interface MenuService {
-    Long addMenuItem_Owner(CreateMenuItemDto createMenuItemDto, Long rid);
+    Long addMenuItem_Owner(SaveMenuItemDto menuItemDto, Long rid);
 
     Menuitem getMenuItemById_Owner(Long mid);
 

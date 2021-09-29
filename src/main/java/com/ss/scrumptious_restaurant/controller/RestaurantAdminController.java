@@ -5,12 +5,12 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.ss.scrumptious_restaurant.dto.SaveMenuItemDto;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.ss.scrumptious_restaurant.dto.CreateMenuItemDto;
 import com.ss.scrumptious_restaurant.dto.SaveRestaurantDto;
 import com.ss.scrumptious_restaurant.dto.ListRestaurantCategoryDto;
 import com.ss.scrumptious_restaurant.entity.Menuitem;
@@ -63,9 +63,9 @@ public class RestaurantAdminController {
 	}
 
 	@PostMapping("/restaurants/{restaurantId}/menu-items")
-	public ResponseEntity<Long> createNewMenuItem(@Valid @RequestBody CreateMenuItemDto createMenuItemDto,
+	public ResponseEntity<Long> createNewMenuItem(@Valid @RequestBody SaveMenuItemDto menuItemDto,
 			@PathVariable Long restaurantId) {
-		Menuitem menuItem = menuService.createNewMenuItem(createMenuItemDto, restaurantId);
+		Menuitem menuItem = menuService.createNewMenuItem(menuItemDto, restaurantId);
 		long menuItemId = menuItem.getId();
 
 		return ResponseEntity.created(URI.create("admin/restaurants/" + restaurantId + "/menu-items")).body(menuItemId);

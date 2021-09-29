@@ -1,9 +1,13 @@
 package com.ss.scrumptious_restaurant.dto;
 
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
-@Data
+@Getter
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
+@Builder
 public class SaveMenuItemDto {
     private String name;
     private Float price;
