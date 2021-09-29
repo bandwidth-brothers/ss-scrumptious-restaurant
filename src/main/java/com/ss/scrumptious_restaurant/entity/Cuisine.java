@@ -22,24 +22,24 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="RESTAURANT_CATEGORY")
+@Table(name="CUISINE")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RestaurantCategory {
+public class Cuisine {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(columnDefinition = "BINARY(16)", name = "restaurantCategoryId", updatable = false)
-	private UUID restaurantCategoryId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", updatable = false)
+	private Long id;
 	
 	@NotBlank
 	@Column(unique = true)
 	private String type;
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "restaurantCategories")
+	@ManyToMany(mappedBy = "cuisines")
 	@EqualsAndHashCode.Exclude
 	private Set<Restaurant> restaurants = new HashSet<>();
 }
