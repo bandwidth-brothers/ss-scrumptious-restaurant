@@ -8,7 +8,7 @@ Restaurant Microservice also allows control to:
 
 ## Documentation
 
-Microservice has Swagger UI enabled and allows visualization and interaction with the API’s resources. The visual documentation is available by going to 'http://localhost:8080/restaurant/swagger-ui/'
+Microservice has Swagger UI enabled and allows visualization and interaction with the API’s resources. The visual documentation is available by going to `http://localhost:8080/restaurant/swagger-ui/`
 
 ## Requirements
 
