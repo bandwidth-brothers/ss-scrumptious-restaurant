@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ss.scrumptious_restaurant.entity.MenuItem;
+import com.ss.scrumptious_restaurant.entity.Restaurant;
 import com.ss.scrumptious_restaurant.service.MenuService;
 
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,17 @@ public class MenuController {
 			return ResponseEntity.noContent().build();
 		} else {
 			return ResponseEntity.ok(menuItems);
+		}
+	}
+	
+	@GetMapping("/restaurants/menu-items")
+	public ResponseEntity<Set<Restaurant>> getRestaurantsFromMenuItemSearch(@RequestParam(value = "search") String search){
+		Set<Restaurant> restaurants = menuService.getRestaurantsFromMenuItemSearch(search);
+		
+		if (restaurants.size() == 0) {
+			return ResponseEntity.noContent().build();
+		} else {
+			return ResponseEntity.ok(restaurants);
 		}
 	}
 

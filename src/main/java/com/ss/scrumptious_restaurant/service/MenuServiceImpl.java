@@ -1,5 +1,6 @@
 package com.ss.scrumptious_restaurant.service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -107,6 +108,26 @@ public class MenuServiceImpl implements MenuService {
         		.build();
         
         return menuItemRepository.findAll(spec);
+	}
+
+	@Override
+	public Set<Restaurant> getRestaurantsFromMenuItemSearch(String search) {
+		MenuItemSpecificationsBuilder builder = new MenuItemSpecificationsBuilder();
+        Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
+        Matcher matcher = pattern.matcher(search + ",");
+        while (matcher.find()) {
+            builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
+        }
+        
+        Specification<MenuItem> spec = builder
+        		.search()
+        		.build();
+        
+        Set<Restaurant> restaurants = menuItemRepository.findAll(spec).stream()
+        		.map(item -> item.getRestaurant())
+        		.collect(Collectors.toSet());
+        	
+        return restaurants;
 	}
 
 }

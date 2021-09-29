@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.ss.scrumptious_restaurant.dto.CreateMenuItemDto;
 import com.ss.scrumptious_restaurant.entity.MenuItem;
+import com.ss.scrumptious_restaurant.entity.Restaurant;
 
 public interface MenuService {
 
@@ -21,5 +22,8 @@ public interface MenuService {
 
 	List<MenuItem> searchMenuItems(String search);
 	List<MenuItem> searchMenuItemsFromRestaurant(String search, Long restaurantId);
+
+
+	Set<Restaurant> getRestaurantsFromMenuItemSearch(String search);
 
 }
