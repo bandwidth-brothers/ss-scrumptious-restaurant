@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import java.util.UUID;
 
-@FeignClient("auth-service")
+@FeignClient("SCRUMPTIOUS-AUTH-SERVICE")
 public interface AuthClient {
 
-    @PostMapping("/auth/restaurants/register")
+    @PostMapping("/auth/owner/register")
     ResponseEntity<UUID> createNewAccountRestaurantOwner(@Valid @RequestBody AuthDto authDto);
 }

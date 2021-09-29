@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
 
-//@Configuration
+@Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
@@ -38,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
         		.authorizeRequests()
                 .antMatchers("/h2-console/*").permitAll()
+                .antMatchers("/owner/*").permitAll()
 //                .antMatchers("/test").permitAll()
 //                .anyRequest().authenticated()
                 .and()
@@ -49,9 +50,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean PasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder();
 	}
-
-
-
-
 
 }

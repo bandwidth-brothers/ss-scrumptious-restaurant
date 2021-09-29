@@ -4,7 +4,6 @@ import com.ss.scrumptious_restaurant.dto.CreatRestaurantOwnerDto;
 import com.ss.scrumptious_restaurant.dto.UpdateRestaurantOwnerDto;
 import com.ss.scrumptious_restaurant.entity.RestaurantOwner;
 
-import java.util.Optional;
 import java.util.UUID;
 
 public interface RestaurantOwnerService {
@@ -15,7 +14,6 @@ public interface RestaurantOwnerService {
     RestaurantOwner getRestaurantOwnerById(UUID uid);
 
     RestaurantOwner getRestaurantOwnerByEmail(String email);
-
 
     void updateRestaurantOwner(UUID uid, UpdateRestaurantOwnerDto updateDto);
 }

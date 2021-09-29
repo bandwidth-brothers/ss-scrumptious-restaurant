@@ -1,43 +1,25 @@
 package com.ss.scrumptious_restaurant.service;
 
-import java.util.Optional;
-import java.util.UUID;
-
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-
-import org.javamoney.moneta.Money;
-import org.springframework.stereotype.Service;
-
-import com.ss.scrumptious_restaurant.dao.RestaurantRepository;
 import com.ss.scrumptious_restaurant.dto.CreateMenuItemDto;
-import com.ss.scrumptious_restaurant.entity.MenuItem;
-import com.ss.scrumptious_restaurant.entity.Restaurant;
+import com.ss.scrumptious_restaurant.dto.SaveMenuItemDto;
+import com.ss.scrumptious_restaurant.entity.MenuCategory;
+import com.ss.scrumptious_restaurant.entity.Menuitem;
+import com.ss.scrumptious_restaurant.entity.Tag;
 
-import lombok.AllArgsConstructor;
+import java.util.List;
 
-@Service
-@AllArgsConstructor
-public class MenuService {
+public interface MenuService {
+    Long addMenuItem_Owner(CreateMenuItemDto createMenuItemDto, Long rid);
 
-	private RestaurantRepository restaurantRepository;
-	private MenuItemRepository menuItemRepository;
+    Menuitem getMenuItemById_Owner(Long mid);
 
-	@Transactional
-	public MenuItem createNewMenuItem(@Valid CreateMenuItemDto createMenuItemDto, UUID restaurantId) {
+    List<Menuitem> getMenuItemByRestaurantId_Owner(Long rid);
 
-		Optional<Restaurant> restaurant = restaurantRepository.findById(restaurantId);
+    List<Tag> addMenuItemTag_Owner(List<String> tagList, Long mid);
 
-		MenuItem menuItem = MenuItem.builder()
-				.name(createMenuItemDto.getName())
-				.price(Money.of(createMenuItemDto.getPrice(), "USD"))
-				.isAvailable(createMenuItemDto.getIsAvailable())
-				.restaurant(restaurant.get())
-				.build();
+    List<MenuCategory> addMenuItemCategory_Owner(List<String> categoryList, Long mid);
 
-		menuItemRepository.save(menuItem);
+    void updateMenuItemById_Owner(SaveMenuItemDto dto, Long mid);
 
-		return menuItem;
-	}
-
+    void deleteMenuItemByIds_Owner(List<Long> ids);
 }

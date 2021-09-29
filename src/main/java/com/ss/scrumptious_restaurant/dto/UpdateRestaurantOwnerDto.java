@@ -30,5 +30,5 @@ public class UpdateRestaurantOwnerDto {
     @NotBlank
 //    @Pattern(regexp = "^\\d{3}-\\d{3}-\\d{4}$",
 //            message = "Phone number must be in the form ###-###-####.")
-    private String phoneNumber;
+    private String phone;
 }

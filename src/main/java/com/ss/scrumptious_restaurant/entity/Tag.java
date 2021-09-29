@@ -4,35 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+
 @Entity
-@Table(name="ADDRESS")
+@Table(name="TAG")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Address {
-
-	@Id
+public class Tag {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-	@NotBlank
-	private String lineOne;
-
-	@Nullable
-	private String lineTwo;
-
-	@NotBlank
-	private String city;
-
-	@NotBlank
-	private String state;
-
-	@NotBlank
-	private String zip;
+    @NotBlank
+    @Column(unique = true)
+    private String type;
 }

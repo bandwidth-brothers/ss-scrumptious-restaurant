@@ -30,9 +30,8 @@ public class CreatRestaurantOwnerDto {
     @Size(min = 3, max = 10, message = "Length must be between 3 and 10 characters.")
     private String password;
 
-    @NotNull
-    @NotBlank
+
 //    @Pattern(regexp = "^\\d{3}-\\d{3}-\\d{4}$",
 //            message = "Phone number must be in the form ###-###-####.")
-    private String phoneNumber;
+    private String phone;
 }
