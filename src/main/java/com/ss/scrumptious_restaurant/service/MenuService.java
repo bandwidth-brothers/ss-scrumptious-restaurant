@@ -1,42 +1,24 @@
 package com.ss.scrumptious_restaurant.service;
 
-import java.util.UUID;
+import com.ss.scrumptious_restaurant.dto.SaveMenuItemDto;
+import com.ss.scrumptious_restaurant.entity.MenuCategory;
+import com.ss.scrumptious_restaurant.entity.Menuitem;
+import com.ss.scrumptious_restaurant.entity.Tag;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
+import java.util.List;
 
-import org.javamoney.moneta.Money;
-import org.springframework.stereotype.Service;
+public interface MenuService {
+    Long addMenuItem_Owner(SaveMenuItemDto menuItemDto, Long rid);
 
-import com.ss.scrumptious_restaurant.dao.RestaurantRepository;
-import com.ss.scrumptious_restaurant.dto.CreateMenuItemDto;
-import com.ss.scrumptious_restaurant.entity.MenuItem;
-import com.ss.scrumptious_restaurant.entity.Restaurant;
+    Menuitem getMenuItemById_Owner(Long mid);
 
-import lombok.AllArgsConstructor;
+    List<Menuitem> getMenuItemByRestaurantId_Owner(Long rid);
 
-@Service
-@AllArgsConstructor
-public class MenuService {
+    List<Tag> addMenuItemTag_Owner(List<String> tagList, Long mid);
 
-	private RestaurantRepository restaurantRepository;
-	private MenuItemRepository menuItemRepository;
-	
-	@Transactional
-	public MenuItem createNewMenuItem(@Valid CreateMenuItemDto createMenuItemDto, UUID restaurantId) {
-		
-		Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow();
-		
-		MenuItem menuItem = MenuItem.builder()
-				.name(createMenuItemDto.getName())
-				.price(Money.of(createMenuItemDto.getPrice(), "USD"))
-				.isAvailable(createMenuItemDto.getIsAvailable())
-				.restaurant(restaurant)
-				.build();
-		
-		menuItemRepository.save(menuItem);
-		
-		return menuItem;
-	}
+    List<MenuCategory> addMenuItemCategory_Owner(List<String> categoryList, Long mid);
 
+    void updateMenuItemById_Owner(SaveMenuItemDto dto, Long mid);
+
+    void deleteMenuItemByIds_Owner(List<Long> ids);
 }
