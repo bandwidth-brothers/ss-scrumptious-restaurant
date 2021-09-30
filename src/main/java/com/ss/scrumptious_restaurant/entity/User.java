@@ -43,7 +43,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "BINARY(16)", name = "id", updatable = false)
+    @Column(columnDefinition = "BINARY(16)", updatable = false)
     private UUID id;
 
     @NotBlank
@@ -81,6 +81,11 @@ public class User implements UserDetails {
     private boolean confirmed = false;
 
     @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         HashSet<GrantedAuthority> set = new HashSet<>();
         if (userRole != null) {
@@ -90,8 +95,5 @@ public class User implements UserDetails {
         return set;
     }
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
+   
 }

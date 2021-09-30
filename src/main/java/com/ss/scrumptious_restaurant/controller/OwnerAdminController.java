@@ -2,7 +2,6 @@ package com.ss.scrumptious_restaurant.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.validation.Valid;
@@ -17,30 +16,29 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ss.scrumptious_restaurant.dto.CreateMenuItemDto;
-import com.ss.scrumptious_restaurant.dto.CreateRestaurantDto;
 import com.ss.scrumptious_restaurant.dto.ListRestaurantCategoryDto;
+import com.ss.scrumptious_restaurant.dto.SaveMenuItemDto;
+import com.ss.scrumptious_restaurant.dto.SaveRestaurantDto;
 import com.ss.scrumptious_restaurant.entity.Cuisine;
 import com.ss.scrumptious_restaurant.entity.MenuItem;
 import com.ss.scrumptious_restaurant.entity.Restaurant;
 import com.ss.scrumptious_restaurant.service.MenuService;
+import com.ss.scrumptious_restaurant.service.RestaurantOwnerService;
 import com.ss.scrumptious_restaurant.service.RestaurantService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-//@CrossOrigin(exposedHeaders="Location")
 public class OwnerAdminController {
 
 	private final RestaurantService restaurantService;
 	private final MenuService menuService;
-
 	
 	@GetMapping("/owner/{ownerId}/restaurants")
 	@PreAuthorize("hasRole('EMPLOYEE') or hasRole('ADMIN')")
-	public ResponseEntity<Set<Restaurant>> getOwnerRestaurants(@PathVariable UUID ownerId) {
-		Set<Restaurant> restaurants = restaurantService.getOwnerRestaurants(ownerId);
+	public ResponseEntity<List<Restaurant>> getOwnerRestaurants(@PathVariable UUID ownerId) {
+		List<Restaurant> restaurants = restaurantService.getOwnerRestaurants(ownerId);
 		
 		if (restaurants.size() == 0) {
 			return ResponseEntity.noContent().build();
@@ -51,9 +49,8 @@ public class OwnerAdminController {
 	
 	@PostMapping("/admin/restaurants")
 	@PreAuthorize("hasRole('EMPLOYEE') or hasRole('ADMIN')")
-	public ResponseEntity<Long> createNewRestaurant(@Valid @RequestBody CreateRestaurantDto createRestaurantDto) {
-		Restaurant restaurant = restaurantService.createNewRestaurant(createRestaurantDto);
-		Long restaurantId = restaurant.getId();
+	public ResponseEntity<Long> createNewRestaurant(@Valid @RequestBody SaveRestaurantDto createRestaurantDto) {
+		Long restaurantId = restaurantService.createRestaurant(createRestaurantDto);
 		return ResponseEntity.created(URI.create("/admin/restaurants/" + restaurantId + "/category-collection")).body(restaurantId);
 	}
 
@@ -73,7 +70,7 @@ public class OwnerAdminController {
 
 	@PostMapping("/admin/restaurants/{restaurantId}/menu-items")
 	@PreAuthorize("hasRole('EMPLOYEE') or hasRole('ADMIN')")
-	public ResponseEntity<Long> createNewMenuItem(@Valid @RequestBody CreateMenuItemDto createMenuItemDto,
+	public ResponseEntity<Long> createNewMenuItem(@Valid @RequestBody SaveMenuItemDto createMenuItemDto,
 			@PathVariable Long restaurantId) {
 		MenuItem menuItem = menuService.createNewMenuItem(createMenuItemDto, restaurantId);
 		Long menuItemId = menuItem.getId();

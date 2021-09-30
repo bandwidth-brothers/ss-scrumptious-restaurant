@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	
+
     private final SecurityConstants securityConstants;
 
     private static final String[] AUTH_WHITELIST = {
@@ -39,13 +39,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-ui/**"
             // other public endpoints of your API may be appended to this array
     };
-
     @Override
     public void configure(WebSecurity web) throws Exception {
     	//web.ignoring().antMatchers(AUTH_WHITELIST);
     }
 
-    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -57,17 +55,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/h2-console/*").permitAll()
                 .antMatchers("/owner/register/**").permitAll()
                 .antMatchers("/admin/register/**").permitAll()
+                //.antMatchers("/test").permitAll()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated();
     }
-
-	
-	@Bean PasswordEncoder passwordEncoder(){ 
+	@Bean PasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder();
 	}
-	 
 
-	 
-
-	 
 }
