@@ -1,4 +1,4 @@
-package com.ss.scrumptious_restaurant.service;
+package com.ss.scrumptious_restaurant.service.Impl;
 
 import java.util.UUID;
 
@@ -13,6 +13,7 @@ import com.ss.scrumptious_restaurant.dto.AuthDto;
 import com.ss.scrumptious_restaurant.dto.CreateAdminDto;
 import com.ss.scrumptious_restaurant.dto.UserIdDto;
 import com.ss.scrumptious_restaurant.entity.Admin;
+import com.ss.scrumptious_restaurant.service.AdminService;
 
 import lombok.AllArgsConstructor;
 

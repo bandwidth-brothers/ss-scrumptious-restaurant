@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import java.util.UUID;
 
-@FeignClient("scrumptious-auth-service")
+@FeignClient("SCRUMPTIOUS-AUTH-SERVICE")
 public interface AuthClient {
 
     @PostMapping("/auth/owner/register")
