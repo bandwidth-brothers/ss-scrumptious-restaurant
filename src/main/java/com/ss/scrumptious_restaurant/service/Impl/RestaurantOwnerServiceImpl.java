@@ -42,7 +42,6 @@ public class RestaurantOwnerServiceImpl implements RestaurantOwnerService {
             throw new IllegalStateException("Email is already in use");
         }
 
-        System.out.println("cline id: " + resp.getBody());
 
         RestaurantOwner restaurantOwner = RestaurantOwner.builder()
                 .firstName(ownerDto.getFirstName())

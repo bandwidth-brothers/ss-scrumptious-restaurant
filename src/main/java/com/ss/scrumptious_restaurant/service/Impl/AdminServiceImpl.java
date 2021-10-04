@@ -11,7 +11,6 @@ import com.ss.scrumptious_restaurant.client.AuthClient;
 import com.ss.scrumptious_restaurant.dao.AdminRepository;
 import com.ss.scrumptious_restaurant.dto.AuthDto;
 import com.ss.scrumptious_restaurant.dto.CreateAdminDto;
-import com.ss.scrumptious_restaurant.dto.UserIdDto;
 import com.ss.scrumptious_restaurant.entity.Admin;
 import com.ss.scrumptious_restaurant.service.AdminService;
 
@@ -32,7 +31,6 @@ public class AdminServiceImpl implements AdminService{
             throw new IllegalStateException("Email is already in use");
         }
 
-        System.out.println("cline id: "  + resp.getBody());
 		Admin admin = Admin.builder()
 				.id(resp.getBody())
 				.firstName(adminDto.getFirstName())
@@ -49,9 +47,8 @@ public class AdminServiceImpl implements AdminService{
         return adminRet.getId();
 	}
 	
-	// TODO GET DETAILS
-	public Admin getAdminDetails(@Valid UserIdDto userIdDto) {
-		Admin admin = adminRepository.findById(userIdDto.getId()).orElseThrow();
+	public Admin getAdminDetails(@Valid UUID adminId) {
+		Admin admin = adminRepository.findById(adminId).orElseThrow();
 		return admin;
 	}
 	

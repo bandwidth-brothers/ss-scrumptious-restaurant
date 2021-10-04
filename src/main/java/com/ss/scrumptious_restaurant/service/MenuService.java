@@ -9,22 +9,16 @@ import com.ss.scrumptious_restaurant.entity.MenuItem;
 import com.ss.scrumptious_restaurant.entity.Restaurant;
 import com.ss.scrumptious_restaurant.entity.Tag;
 public interface MenuService {
-
-	MenuItem createNewMenuItem(SaveMenuItemDto menuItemDto, Long restaurantId);
-
-    Long addMenuItem_Owner(SaveMenuItemDto menuItemDto, Long rid);
-
-    MenuItem getMenuItemById_Owner(Long mid);
-
-    List<MenuItem> getMenuItemByRestaurantId_Owner(Long rid);
+	MenuItem createMenuItem(SaveMenuItemDto menuItemDto, Long restaurantId);
+    MenuItem getMenuItemById(Long menuId);
 	
-    List<Tag> addMenuItemTag_Owner(List<String> tagList, Long mid);
+    List<Tag> updateMenuItemTag(List<String> tagList, Long menuId);
 
-    List<MenuCategory> addMenuItemCategory_Owner(List<String> categoryList, Long mid);
+    List<MenuCategory> updateMenuItemCategory(List<String> categoryList, Long menuId);
 	
-    void updateMenuItemById_Owner(SaveMenuItemDto dto, Long mid);
+    void updateMenuItemById(SaveMenuItemDto dto, Long menuId);
 
-    void deleteMenuItemByIds_Owner(List<Long> ids);
+    void deleteMenuItemByIds(List<Long> ids);
     
     List<MenuItem> getAllMenuItems();
 	List<MenuItem> getAllMenuItemsFromRestaurant(Long restaurantId);

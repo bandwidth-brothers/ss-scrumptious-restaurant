@@ -29,7 +29,7 @@ public class SpringFoxConfig {
 	
 	private ApiInfo apiDetails() {
 		return new ApiInfo(
-				"Restaruant Microservice API",
+				"Restaurant Microservice API",
 				"Microservice for Scrumptious Food Delivery App",
 				"1.0",
 				"Free to use",

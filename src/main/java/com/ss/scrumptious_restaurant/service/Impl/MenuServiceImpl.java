@@ -41,27 +41,8 @@ public class MenuServiceImpl implements MenuService {
 	
 	
 	@Transactional
-	public MenuItem createNewMenuItem(@Valid SaveMenuItemDto createMenuItemDto, Long restaurantId) {
-		
-		Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow();
-		
-		MenuItem menuItem = MenuItem.builder()
-				.name(createMenuItemDto.getName())
-				.price(Money.of(createMenuItemDto.getPrice(), "USD"))
-				.isAvailable(createMenuItemDto.getIsAvailable())
-				.restaurant(restaurant)
-				.build();
-		
-		menuItemRepository.save(menuItem);
-		
-		return menuItem;
-	}
-	
-	//"------------------------------------------------------------------------------------------"
-    @Transactional
-    @Override
-    public Long addMenuItem_Owner(SaveMenuItemDto menuItemDto, Long rid) {
-        Restaurant r = restaurantService.getRestaurantById_Owner(rid);
+	public MenuItem createMenuItem(@Valid SaveMenuItemDto menuItemDto, Long restaurantId) {
+		Restaurant r = restaurantService.getRestaurantById(restaurantId);
         MenuItem menuItem = MenuItem.builder()
                 .name(menuItemDto.getName())
                 .price(Money.of(menuItemDto.getPrice(), "USD"))
@@ -69,27 +50,21 @@ public class MenuServiceImpl implements MenuService {
                 .restaurant(r)
                 .build();
         menuItemRepository.save(menuItem);
-        return menuItem.getId();
-    }
+        return menuItem;
+	}
 
-    @Override
-    public MenuItem getMenuItemById_Owner(Long mid) {
-        MenuItem menuItem = menuItemRepository.findById(mid).orElseThrow(() -> new NoSuchElementException("MenuItem not exist"));
+	@Override
+    public MenuItem getMenuItemById(Long menuId) {
+        MenuItem menuItem = menuItemRepository.findById(menuId).orElseThrow(() -> new NoSuchElementException("MenuItem not exist"));
         return menuItem;
     }
 
-    @Override
-    public List<MenuItem> getMenuItemByRestaurantId_Owner(Long rid) {
-        Restaurant restaurant = restaurantRepository.findById(rid).orElseThrow(() -> new NoSuchElementException("restaurant not exist"));
-        List<MenuItem> list = menuItemRepository.findAllByRestaurant(restaurant);
-
-        return list;
-    }
+    
 
     @Transactional
     @Override
-    public List<Tag> addMenuItemTag_Owner(List<String> tagList, Long mid) {
-        MenuItem menu = getMenuItemById_Owner(mid);
+    public List<Tag> updateMenuItemTag(List<String> tagList, Long menuId) {
+        MenuItem menu = getMenuItemById(menuId);
 
         List<Tag> list = tagList.stream()
                 .filter(s -> !tagRepository.existsTagByType(s))
@@ -104,8 +79,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuCategory> addMenuItemCategory_Owner(List<String> categoryList, Long mid) {
-        MenuItem menu = getMenuItemById_Owner(mid);
+    public List<MenuCategory> updateMenuItemCategory(List<String> categoryList, Long menuId) {
+        MenuItem menu = getMenuItemById(menuId);
 
         List<MenuCategory> list = categoryList.stream()
                 .filter(s -> !menuCategoryRepository.existsMenuCategoryByType(s))
@@ -121,60 +96,53 @@ public class MenuServiceImpl implements MenuService {
 
     @Transactional
     @Override
-    public void updateMenuItemById_Owner(SaveMenuItemDto dto, Long mid) {
+    public void updateMenuItemById(SaveMenuItemDto menuItemDto, Long menuId) {
 
-        MenuItem menu = getMenuItemById_Owner(mid);
-        menu.setDescription(dto.getDescription());
-        menu.setDiscount(dto.getDiscount());
-        menu.setIsAvailable(dto.getIsAvailable());
-        menu.setName(dto.getName());
-        menu.setPrice(Money.of(dto.getPrice(),"USD"));
-        menu.setSize(dto.getSize());
+        MenuItem menu = getMenuItemById(menuId);
+        menu.setDescription(menuItemDto.getDescription());
+        menu.setDiscount(menuItemDto.getDiscount());
+        menu.setIsAvailable(menuItemDto.getIsAvailable());
+        menu.setName(menuItemDto.getName());
+        menu.setPrice(Money.of(menuItemDto.getPrice(),"USD"));
+        menu.setSize(menuItemDto.getSize());
         menuItemRepository.save(menu);
-        addMenuItemCategory_Owner(dto.getCategories(), mid);
-        addMenuItemTag_Owner(dto.getTags(), mid);
+        updateMenuItemCategory(menuItemDto.getCategories(), menuId);
+        updateMenuItemTag(menuItemDto.getTags(), menuId);
 
     }
 
     @Transactional
     @Override
-    public void deleteMenuItemByIds_Owner(List<Long> ids) {
+    public void deleteMenuItemByIds(List<Long> ids) {
         menuItemRepository.deleteMenuItemsByIdIn(ids);
     }
 	
     @Override
 	public List<MenuItem> getAllMenuItems() {
-		
 		return menuItemRepository.findAll();
 	}
 
-	@Override
+    @Override
 	public List<MenuItem> getAllMenuItemsFromRestaurant(Long restaurantId) {
-		Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow();
-		
+		Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
 		return menuItemRepository.findAllByRestaurant(restaurant);
 	}
 
-	
-
-	@Override
-	public MenuItem getMenuItemFromRestaurant(Long restId, Long itemId) {
-		Restaurant restaurant = restaurantRepository.findById(restId).orElseThrow();
-
-		MenuItem menuItem = menuItemRepository.findByIdAndRestaurant(itemId, restaurant);
-		
+    @Override
+	public MenuItem getMenuItemFromRestaurant(Long restaurantId, Long menuId) {
+		Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
+		MenuItem menuItem = menuItemRepository.findByIdAndRestaurant(menuId, restaurant);
 		return menuItem;
 	}
 
-	@Override
+    @Override
 	public List<MenuItem> searchMenuItems(String search) {
 		 MenuItemSpecificationsBuilder builder = new MenuItemSpecificationsBuilder();
 	        Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
 	        Matcher matcher = pattern.matcher(search + ",");
 	        while (matcher.find()) {
 	            builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
-	        }
-	        
+	        } 
 	        Specification<MenuItem> spec = builder
 	        		.search()
 	        		.build();
@@ -182,7 +150,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 
-	@Override
+    @Override
 	public List<MenuItem> searchMenuItemsFromRestaurant(String search, Long restaurantId) {
 		Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow();
 		
@@ -203,7 +171,7 @@ public class MenuServiceImpl implements MenuService {
         return menuItemRepository.findAll(spec);
 	}
 
-	@Override
+    @Override
 	public Set<Restaurant> getRestaurantsFromMenuItemSearch(String search) {
 		MenuItemSpecificationsBuilder builder = new MenuItemSpecificationsBuilder();
         Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
