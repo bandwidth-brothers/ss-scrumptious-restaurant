@@ -15,4 +15,7 @@ public interface AuthClient {
 
     @PostMapping("/auth/owner/register")
     ResponseEntity<UUID> createNewAccountRestaurantOwner(@Valid @RequestBody AuthDto authDto);
+    
+    @PostMapping("/auth/admin/register")
+    ResponseEntity<UUID> createNewAccountAdmin(@Valid @RequestBody AuthDto authDto);
 }

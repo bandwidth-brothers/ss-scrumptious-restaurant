@@ -1,17 +1,22 @@
 package com.ss.scrumptious_restaurant.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import lombok.*;
-
-import javax.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreatRestaurantOwnerDto {
-
-    @NotNull
+public class CreateAdminDto {
+	@NotNull
     @NotBlank(message = "First name is mandatory")
     private String firstName;
 
@@ -27,11 +32,10 @@ public class CreatRestaurantOwnerDto {
     @ToString.Exclude
     @NotNull
     @NotBlank(message = "Password cannot be blank.")
-    @Size(min = 3, max = 10, message = "Length must be between 3 and 10 characters.")
+    @Size(min = 10, message = "Length must be between 3 and 10 characters.")
     private String password;
 
-
-//    @Pattern(regexp = "^\\d{3}-\\d{3}-\\d{4}$",
-//            message = "Phone number must be in the form ###-###-####.")
+    @NotNull
+    @NotBlank
     private String phone;
 }

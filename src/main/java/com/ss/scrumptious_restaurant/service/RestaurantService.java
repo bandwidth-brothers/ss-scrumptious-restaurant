@@ -1,23 +1,21 @@
 package com.ss.scrumptious_restaurant.service;
 
-import com.ss.scrumptious_restaurant.dto.SaveRestaurantDto;
-import com.ss.scrumptious_restaurant.entity.Restaurant;
-import com.ss.scrumptious_restaurant.entity.Cuisine;
-
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import com.ss.scrumptious_restaurant.dto.SaveRestaurantDto;
+import com.ss.scrumptious_restaurant.entity.Cuisine;
+import com.ss.scrumptious_restaurant.entity.Restaurant;
+import com.ss.scrumptious_restaurant.entity.RestaurantOwner;
 public interface RestaurantService {
-    Long createRestaurant_Owner(SaveRestaurantDto createRestaurantDto);
+    Restaurant createRestaurant(SaveRestaurantDto createRestaurantDto);
+    Restaurant getRestaurantById(Long restaurantId);
+    Set<Cuisine> updateRestaurantCuisines(List<String> cuisineList, Long restaurantId);
 
-    List<Restaurant> getAllRestaurantsByOwnerId_Owner(UUID uid);
+    void updateRestaurantById(Long restaurantId, SaveRestaurantDto dto);
 
-    Restaurant getRestaurantById_Owner(Long rid);
-
-    Set<Cuisine> saveRestaurantCategories_Owner(List<String> categoryList, Long rid);
-
-    void updateRestaurantByOwner_Owner(UUID uid, Long rid, SaveRestaurantDto dto);
-
-    void updateRestaurantById_Owner(Long rid, SaveRestaurantDto dto);
+	List<Restaurant> getAllRestaurants();
+	List<Restaurant> getOwnerRestaurants(UUID ownerId);
+	List<RestaurantOwner> getAllRestaurantOwners();
 }

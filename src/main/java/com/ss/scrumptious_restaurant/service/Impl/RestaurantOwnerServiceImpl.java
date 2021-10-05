@@ -1,23 +1,27 @@
 package com.ss.scrumptious_restaurant.service.Impl;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.UUID;
+
+import javax.transaction.Transactional;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
 import com.ss.scrumptious_restaurant.client.AuthClient;
 import com.ss.scrumptious_restaurant.dao.RestaurantOwnerRepository;
 import com.ss.scrumptious_restaurant.dao.UserRepository;
 import com.ss.scrumptious_restaurant.dto.AuthDto;
-import com.ss.scrumptious_restaurant.dto.CreatRestaurantOwnerDto;
+import com.ss.scrumptious_restaurant.dto.CreateRestaurantOwnerDto;
 import com.ss.scrumptious_restaurant.dto.UpdateRestaurantOwnerDto;
 import com.ss.scrumptious_restaurant.entity.RestaurantOwner;
 import com.ss.scrumptious_restaurant.entity.User;
 import com.ss.scrumptious_restaurant.service.RestaurantOwnerService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.UUID;
 
 
 @Slf4j
@@ -30,7 +34,7 @@ public class RestaurantOwnerServiceImpl implements RestaurantOwnerService {
 
 
     @Override
-    public UUID createNewRestaurantOwner(CreatRestaurantOwnerDto ownerDto) {
+    public UUID createNewRestaurantOwner(CreateRestaurantOwnerDto ownerDto) {
         AuthDto authDto = AuthDto.builder().email(ownerDto.getEmail())
                 .password(ownerDto.getPassword()).build();
         ResponseEntity<UUID> resp = authClient.createNewAccountRestaurantOwner(authDto);
@@ -38,7 +42,6 @@ public class RestaurantOwnerServiceImpl implements RestaurantOwnerService {
             throw new IllegalStateException("Email is already in use");
         }
 
-        System.out.println("cline id: " + resp.getBody());
 
         RestaurantOwner restaurantOwner = RestaurantOwner.builder()
                 .firstName(ownerDto.getFirstName())
@@ -64,6 +67,11 @@ public class RestaurantOwnerServiceImpl implements RestaurantOwnerService {
         RestaurantOwner owner = restaurantOwnerRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("user not found"));
         return owner;
     }
+    
+    @Override
+	public List<RestaurantOwner> getAllRestaurantOwners() {
+		return restaurantOwnerRepository.findAll();
+	}
 
     @Transactional
     @Override
@@ -95,4 +103,8 @@ public class RestaurantOwnerServiceImpl implements RestaurantOwnerService {
                 .build();
         restaurantOwnerRepository.save(newOwner);
     }
+
+	
+
+	
 }

@@ -1,24 +1,31 @@
 package com.ss.scrumptious_restaurant.service;
 
+import java.util.List;
+import java.util.Set;
+
 import com.ss.scrumptious_restaurant.dto.SaveMenuItemDto;
 import com.ss.scrumptious_restaurant.entity.MenuCategory;
-import com.ss.scrumptious_restaurant.entity.Menuitem;
+import com.ss.scrumptious_restaurant.entity.MenuItem;
+import com.ss.scrumptious_restaurant.entity.Restaurant;
 import com.ss.scrumptious_restaurant.entity.Tag;
-
-import java.util.List;
-
 public interface MenuService {
-    Long addMenuItem_Owner(SaveMenuItemDto menuItemDto, Long rid);
+	MenuItem createMenuItem(SaveMenuItemDto menuItemDto, Long restaurantId);
+    MenuItem getMenuItemById(Long menuId);
+	
+    List<Tag> updateMenuItemTag(List<String> tagList, Long menuId);
 
-    Menuitem getMenuItemById_Owner(Long mid);
+    List<MenuCategory> updateMenuItemCategory(List<String> categoryList, Long menuId);
+	
+    void updateMenuItemById(SaveMenuItemDto dto, Long menuId);
 
-    List<Menuitem> getMenuItemByRestaurantId_Owner(Long rid);
+    void deleteMenuItemByIds(List<Long> ids);
+    
+    List<MenuItem> getAllMenuItems();
+	List<MenuItem> getAllMenuItemsFromRestaurant(Long restaurantId);
+	MenuItem getMenuItemFromRestaurant(Long restId, Long itemId);
+	List<MenuItem> searchMenuItems(String search);
+	List<MenuItem> searchMenuItemsFromRestaurant(String search, Long restaurantId);
 
-    List<Tag> addMenuItemTag_Owner(List<String> tagList, Long mid);
 
-    List<MenuCategory> addMenuItemCategory_Owner(List<String> categoryList, Long mid);
-
-    void updateMenuItemById_Owner(SaveMenuItemDto dto, Long mid);
-
-    void deleteMenuItemByIds_Owner(List<Long> ids);
+	Set<Restaurant> getRestaurantsFromMenuItemSearch(String search);
 }

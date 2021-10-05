@@ -1,13 +1,14 @@
 package com.ss.scrumptious_restaurant.mapper;
 
-import com.ss.scrumptious_restaurant.dto.SaveMenuItemDto;
-import com.ss.scrumptious_restaurant.entity.Menuitem;
 import org.javamoney.moneta.Money;
+
+import com.ss.scrumptious_restaurant.dto.SaveMenuItemDto;
+import com.ss.scrumptious_restaurant.entity.MenuItem;
 
 public class MenuItemDtoMapper {
 
-    public static Menuitem map(SaveMenuItemDto dto){
-        return Menuitem.builder()
+    public static MenuItem map(SaveMenuItemDto dto){
+        return MenuItem.builder()
                 .name(dto.getName())
                 .isAvailable(dto.getIsAvailable())
                 .price(Money.of(dto.getPrice(), "USD"))

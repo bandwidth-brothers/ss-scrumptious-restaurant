@@ -1,22 +1,37 @@
 package com.ss.scrumptious_restaurant.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
-import lombok.Builder.Default;
+import java.time.ZonedDateTime;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.UUID;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import java.time.ZonedDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Builder.Default;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name ="USER")
@@ -46,12 +61,12 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole userRole = UserRole.DEFAULT;
 
-    @Column(name="createdAt", updatable = false)
+    @Column(name="created_at", updatable = false)
     @CreationTimestamp
     private ZonedDateTime creationDateTime;
 
     @UpdateTimestamp
-	@Column(name="updatedAt")
+	@Column(name="updated_at")
     private ZonedDateTime lastModifiedDateTime;
 
 	@Default
@@ -66,6 +81,11 @@ public class User implements UserDetails {
     private boolean confirmed = false;
 
     @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         HashSet<GrantedAuthority> set = new HashSet<>();
         if (userRole != null) {
@@ -75,8 +95,5 @@ public class User implements UserDetails {
         return set;
     }
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
+   
 }

@@ -1,23 +1,26 @@
 package com.ss.scrumptious_restaurant.service.Impl;
 
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 
+import org.springframework.stereotype.Service;
+
+import com.ss.scrumptious_restaurant.dao.AddressRepository;
 import com.ss.scrumptious_restaurant.dao.CuisineRepository;
-import com.ss.scrumptious_restaurant.entity.*;
+import com.ss.scrumptious_restaurant.dao.RestaurantRepository;
+import com.ss.scrumptious_restaurant.dto.SaveRestaurantDto;
+import com.ss.scrumptious_restaurant.entity.Address;
+import com.ss.scrumptious_restaurant.entity.Cuisine;
+import com.ss.scrumptious_restaurant.entity.Restaurant;
+import com.ss.scrumptious_restaurant.entity.RestaurantOwner;
 import com.ss.scrumptious_restaurant.mapper.RestaurantDtoMapper;
 import com.ss.scrumptious_restaurant.service.RestaurantOwnerService;
 import com.ss.scrumptious_restaurant.service.RestaurantService;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import com.ss.scrumptious_restaurant.dao.AddressRepository;
-import com.ss.scrumptious_restaurant.dao.RestaurantRepository;
-import com.ss.scrumptious_restaurant.dto.SaveRestaurantDto;
-import com.ss.scrumptious_restaurant.dto.ListRestaurantCategoryDto;
 
 import lombok.AllArgsConstructor;
 
@@ -31,62 +34,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     private RestaurantOwnerService restaurantOwnerService;
 
     @Transactional
-    public Restaurant createNewRestaurant(@Valid @RequestBody SaveRestaurantDto createRestaurantDto) {
-        Address address = Address.builder()
-                .lineOne(createRestaurantDto.getLineOne())
-                .lineTwo(createRestaurantDto.getLineTwo() != null ? createRestaurantDto.getLineTwo() : null)
-                .city(createRestaurantDto.getCity())
-                .state(createRestaurantDto.getState())
-                .zip(createRestaurantDto.getZip())
-                .build();
-        addressRepository.save(address);
-
-        Restaurant restaurant = Restaurant.builder()
-                .name(createRestaurantDto.getName())
-                .address(address)
-                .build();
-
-        restaurantRepository.save(restaurant);
-
-        return restaurant;
-    }
-
-    @Transactional
-    public List<Cuisine> createNewRestaurantCategories(
-            @Valid ListRestaurantCategoryDto listRestaurantCategoryDto, Long restaurantId) {
-
-
-
-        Optional<Restaurant> restaurant = restaurantRepository.findById(restaurantId);
-
-        List<Cuisine> restaurantCategories = listRestaurantCategoryDto.getRestaurantCategories()
-                .stream()
-                .filter(rCDto -> {
-                    return !cuisineRepository.existsCuisineByType(rCDto.getType());
-                })
-                .map(rCDto -> {
-                    Cuisine rC = Cuisine.builder()
-                            .type(rCDto.getType())
-                            .build();
-                    restaurant.get().addRestaurantCuisine(rC);
-                    return rC;
-                })
-                .collect(Collectors.toList());
-
-        cuisineRepository.saveAll(restaurantCategories);
-        restaurantRepository.save(restaurant.get());
-
-        return restaurantCategories;
-    }
-
-    public List<Restaurant> getAllRestaurants() {
-        List<Restaurant> restaurants = restaurantRepository.findAll();
-        return restaurants;
-    }
-
-    @Transactional
     @Override
-    public Long createRestaurant_Owner(SaveRestaurantDto createRestaurantDto) {
+    public Restaurant createRestaurant(SaveRestaurantDto createRestaurantDto) {
         Address address = Address.builder()
                 .lineOne(createRestaurantDto.getLineOne())
                 .lineTwo(createRestaurantDto.getLineTwo())
@@ -105,29 +54,30 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .address(adr)
                 .build();
 
-        Restaurant re = restaurantRepository.save(restaurant);
-        return restaurant.getId();
+        restaurantRepository.save(restaurant);
+        return restaurant;
     }
 
-    @Override
-    public List<Restaurant> getAllRestaurantsByOwnerId_Owner(UUID uid) {
-        RestaurantOwner owner = restaurantOwnerService.getRestaurantOwnerById(uid);
-        List<Restaurant> list = restaurantRepository.findByOwner(owner);
-        return list;
+    public List<Restaurant> getAllRestaurants() {
+        List<Restaurant> restaurants = restaurantRepository.findAll();
+        return restaurants;
     }
 
+    public List<Restaurant> getOwnerRestaurants(UUID ownerId) {
+		RestaurantOwner restaurantOwner = restaurantOwnerService.getRestaurantOwnerById(ownerId);	
+		return restaurantRepository.findByOwner(restaurantOwner);
+	}
 
     @Override
-    public Restaurant getRestaurantById_Owner(Long rid) {
-        Restaurant re = restaurantRepository.findById(rid).orElseThrow(() -> new NoSuchElementException("restaurant not exist"));
-//		re.getRestaurantCategories();
+    public Restaurant getRestaurantById(Long restaurantId) {
+        Restaurant re = restaurantRepository.findById(restaurantId).orElseThrow(() -> new NoSuchElementException("restaurant not exist"));
         return re;
     }
 
     @Transactional
     @Override
-    public Set<Cuisine> saveRestaurantCategories_Owner(List<String> categoryList, Long rid) {
-        Restaurant restaurant = getRestaurantById_Owner(rid);
+    public Set<Cuisine> updateRestaurantCuisines(List<String> categoryList, Long restaurantId) {
+        Restaurant restaurant = getRestaurantById(restaurantId);
         //find unexist category and save them
         List<Cuisine> list = categoryList.stream()
                 .filter(s -> !cuisineRepository.existsCuisineByType(s))
@@ -144,28 +94,24 @@ public class RestaurantServiceImpl implements RestaurantService {
         return all;
     }
 
-    @Override
-    public void updateRestaurantByOwner_Owner(UUID uid, Long rid, SaveRestaurantDto dto) {
-//        RestaurantOwner owner = RestaurantOwner.builder().restaurantOwnerId(dto.getRestaurantOwnerId()).build();
-        Restaurant r = getRestaurantById_Owner(rid);
-        if(!r.getOwner().getId().equals(uid)){
-            throw  new NoSuchElementException("restaurant not exist");
-        }else {
-            updateRestaurantById_Owner(rid, dto);
-        }
-    }
-
     @Transactional
     @Override
-    public void updateRestaurantById_Owner(Long rid, SaveRestaurantDto dto) {
-        Restaurant r = getRestaurantById_Owner(rid);
+    public void updateRestaurantById(Long restaurantId, SaveRestaurantDto dto) {
+        Restaurant r = getRestaurantById(restaurantId);
 
-        Restaurant updateRestau = RestaurantDtoMapper.map(dto);
-        updateRestau.setId(r.getId());
-        updateRestau.setOwner(r.getOwner());
-        updateRestau.setRating(r.getRating());
+        Restaurant updateRestaurant = RestaurantDtoMapper.map(dto);
+        updateRestaurant.setId(r.getId());
+        updateRestaurant.setOwner(r.getOwner());
+        updateRestaurant.setRating(r.getRating());
 
-        restaurantRepository.save(updateRestau);
-        saveRestaurantCategories_Owner(dto.getCategories(), rid);
+        restaurantRepository.save(updateRestaurant);
+        updateRestaurantCuisines(dto.getCategories(), restaurantId);
     }
+
+   
+
+	public List<RestaurantOwner> getAllRestaurantOwners() {
+		List<RestaurantOwner> RestaurantOwners = restaurantOwnerService.getAllRestaurantOwners();
+		return RestaurantOwners;
+		}
 }

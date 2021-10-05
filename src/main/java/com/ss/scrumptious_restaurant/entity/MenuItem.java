@@ -19,7 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Menuitem {
+public class MenuItem {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
