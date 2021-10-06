@@ -87,6 +87,14 @@ public class RestaurantController {
 		return ResponseEntity.ok(restaurant);
 	}
 
+	@GetMapping("/restaurants/{restaurantId}")
+	@PreAuthorize("hasAnyRole('OWNER','ADMIN','CUSTOMER')")
+	public ResponseEntity<Restaurant> getRestaurantById(@PathVariable Long restaurantId) {
+		Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
+		return ResponseEntity.ok(restaurant);
+	}
+	
+	
 	@PutMapping("/owners/{ownerId}/restaurants/{restaurantId}")
 	@PreAuthorize("hasRole('ADMIN')" + " OR @ownerAuthenticationManager.ownerIdMatches(authentication, #ownerId)")
 	public ResponseEntity<Void> updateRestaurantByIdWithOwner(@PathVariable UUID ownerId, @PathVariable Long restaurantId,
