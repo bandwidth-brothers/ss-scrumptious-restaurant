@@ -152,7 +152,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
 	public List<MenuItem> searchMenuItemsFromRestaurant(String search, Long restaurantId) {
-		Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow();
+		Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(null);
 		
 		System.out.println(search);
 		
