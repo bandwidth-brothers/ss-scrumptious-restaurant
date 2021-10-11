@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ss.scrumptious_restaurant.entity.Address;
+import com.ss.scrumptious_restaurant.entity.Admin;
 
-public interface AddressRepository extends JpaRepository<Address, Long> {
+public interface AdminRepository extends JpaRepository<Admin, UUID>{
 
 }

@@ -1,42 +1,31 @@
 package com.ss.scrumptious_restaurant.service;
 
-import java.util.UUID;
+import java.util.List;
+import java.util.Set;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-
-import org.javamoney.moneta.Money;
-import org.springframework.stereotype.Service;
-
-import com.ss.scrumptious_restaurant.dao.RestaurantRepository;
-import com.ss.scrumptious_restaurant.dto.CreateMenuItemDto;
+import com.ss.scrumptious_restaurant.dto.SaveMenuItemDto;
+import com.ss.scrumptious_restaurant.entity.MenuCategory;
 import com.ss.scrumptious_restaurant.entity.MenuItem;
 import com.ss.scrumptious_restaurant.entity.Restaurant;
-
-import lombok.AllArgsConstructor;
-
-@Service
-@AllArgsConstructor
-public class MenuService {
-
-	private RestaurantRepository restaurantRepository;
-	private MenuItemRepository menuItemRepository;
+import com.ss.scrumptious_restaurant.entity.Tag;
+public interface MenuService {
+	MenuItem createMenuItem(SaveMenuItemDto menuItemDto, Long restaurantId);
+    MenuItem getMenuItemById(Long menuId);
 	
-	@Transactional
-	public MenuItem createNewMenuItem(@Valid CreateMenuItemDto createMenuItemDto, UUID restaurantId) {
-		
-		Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow();
-		
-		MenuItem menuItem = MenuItem.builder()
-				.name(createMenuItemDto.getName())
-				.price(Money.of(createMenuItemDto.getPrice(), "USD"))
-				.isAvailable(createMenuItemDto.getIsAvailable())
-				.restaurant(restaurant)
-				.build();
-		
-		menuItemRepository.save(menuItem);
-		
-		return menuItem;
-	}
+    List<Tag> updateMenuItemTag(List<String> tagList, Long menuId);
 
+    List<MenuCategory> updateMenuItemCategory(List<String> categoryList, Long menuId);
+	
+    void updateMenuItemById(SaveMenuItemDto dto, Long menuId);
+
+    void deleteMenuItemByIds(List<Long> ids);
+    
+    List<MenuItem> getAllMenuItems();
+	List<MenuItem> getAllMenuItemsFromRestaurant(Long restaurantId);
+	MenuItem getMenuItemFromRestaurant(Long restId, Long itemId);
+	List<MenuItem> searchMenuItems(String search);
+	List<MenuItem> searchMenuItemsFromRestaurant(String search, Long restaurantId);
+
+
+	Set<Restaurant> getRestaurantsFromMenuItemSearch(String search);
 }

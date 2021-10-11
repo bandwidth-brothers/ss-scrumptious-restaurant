@@ -1,10 +1,8 @@
 package com.ss.scrumptious_restaurant.entity;
 
-import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,15 +10,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,15 +31,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Restaurant {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "BINARY(16)", name = "restaurantId", updatable = false)
-    private UUID restaurantId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="addressId", referencedColumnName = "addressId")
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@EqualsAndHashCode.Exclude
 	private Address address;
 
@@ -51,32 +47,29 @@ public class Restaurant {
 
     @Builder.Default
     private Float rating = 0.f;
-    
+
+    private String phone;
+
+    private String logo;
+
     @Enumerated(EnumType.STRING)
-    @Column(name="priceCategory")
-    private PriceCategory priceCategory;
+    @Builder.Default
+    private PriceCategory priceCategory = PriceCategory.$;
 
     @Builder.Default
-    @Column(name="isActive")
     private Boolean isActive = true;
-    
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-    		name="RESTAURANT_CATEGORY_REL", 
-    		joinColumns = @JoinColumn(name = "restaurantId"),
-    		inverseJoinColumns = @JoinColumn(name = "restaurantCategoryId"))
-    @EqualsAndHashCode.Exclude
-    @Builder.Default
-    private Set<RestaurantCategory> restaurantCategories = new HashSet<>();
 
-    @OneToMany(mappedBy = "restaurant")
-    @JsonIgnore
+    @ManyToMany
     @EqualsAndHashCode.Exclude
-    @Builder.Default
-    private Set<MenuItem> menuItems = new HashSet<>();
-    
-	public void addRestaurantCategory(RestaurantCategory rC) {
-		restaurantCategories.add(rC);
+    private Set<Cuisine> cuisines;
+
+    @JsonIgnore
+    @ManyToOne
+    private RestaurantOwner owner;
+
+	public void addRestaurantCuisine(Cuisine rC) {
+
+		cuisines.add(rC);
 	}
 
 }

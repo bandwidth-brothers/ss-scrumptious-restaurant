@@ -19,29 +19,30 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "OWNER")
+@Table(name = "ADMIN")
 @Builder
-public class RestaurantOwner {
+public class Admin {
 
 	@Id
-	@Column(columnDefinition = "BINARY(16)")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(columnDefinition = "BINARY(16)", name = "id", updatable = false)
 	private UUID id;
-
+	
+	
 	@NotBlank
-	@Column(nullable = false)
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
-
+	
 	@NotBlank
-	@Column(nullable = false)
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
-
+	
 	@NotBlank
-	@Column(nullable = false)
+	@Column(name = "phone", nullable = false)
 	private String phone;
-
+	
 	@NotBlank
-	@Column(nullable = false)
+	@Column(name = "email", nullable = false)
 	private String email;
-
-
+	
 }
