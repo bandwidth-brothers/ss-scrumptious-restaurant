@@ -40,12 +40,12 @@ public class AdminController {
 	
 	@GetMapping("/{adminId}")
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	public ResponseEntity<Admin> getAdminDetails(@PathVariable UUID adminId){
-		Admin admin = adminService.getAdminDetails(adminId);
+	public ResponseEntity<Admin> getAdminById(@PathVariable UUID adminId){
+		Admin admin = adminService.getAdminById(adminId);
 
 		return ResponseEntity.ok(admin);
 	}
-
+	
 	@GetMapping("/owners")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<List<RestaurantOwner>> getAllRestaurantOwners() {
@@ -57,4 +57,12 @@ public class AdminController {
 			return ResponseEntity.ok(restaurantOwners);
 		}
 	}	
+	
+	@GetMapping("/restaurants/{restaurantId}/owner")
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	public ResponseEntity<RestaurantOwner> getOwnerByRestaurantId(@PathVariable Long restaurantId) {
+		RestaurantOwner owner = restaurantService.getOwnerByRestaurantId(restaurantId);
+
+		return ResponseEntity.ok(owner);
+	}
 }
