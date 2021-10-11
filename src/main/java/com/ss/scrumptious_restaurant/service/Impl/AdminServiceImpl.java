@@ -43,14 +43,11 @@ public class AdminServiceImpl implements AdminService{
 			
 		
 		Admin adminRet = adminRepository.save(admin);
-
-        System.out.println("owner id: " + adminRet.getId());
-
         return adminRet.getId();
 	}
 	
 	public Admin getAdminById(@Valid UUID adminId) {
-		Admin admin = adminRepository.findById(adminId).orElseThrow();
+		Admin admin = adminRepository.findById(adminId).orElseThrow(null);
 		return admin;
 	}
 
