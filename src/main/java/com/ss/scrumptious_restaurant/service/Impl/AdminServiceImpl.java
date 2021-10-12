@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.ss.scrumptious_restaurant.client.AuthClient;
 import com.ss.scrumptious_restaurant.dao.AdminRepository;
+import com.ss.scrumptious_restaurant.dao.UserRepository;
 import com.ss.scrumptious_restaurant.dto.AuthDto;
 import com.ss.scrumptious_restaurant.dto.CreateAdminDto;
 import com.ss.scrumptious_restaurant.entity.Admin;
+import com.ss.scrumptious_restaurant.entity.User;
 import com.ss.scrumptious_restaurant.service.AdminService;
 
 import lombok.AllArgsConstructor;
@@ -21,7 +23,7 @@ import lombok.AllArgsConstructor;
 public class AdminServiceImpl implements AdminService{
     private final AuthClient authClient;
 	private AdminRepository adminRepository;
-	
+	private UserRepository userRepository;
 
 	public UUID createNewAdmin(@Valid CreateAdminDto adminDto) {
 		AuthDto authDto = AuthDto.builder().email(adminDto.getEmail())
@@ -41,15 +43,14 @@ public class AdminServiceImpl implements AdminService{
 			
 		
 		Admin adminRet = adminRepository.save(admin);
-
-        System.out.println("owner id: " + adminRet.getId());
-
         return adminRet.getId();
 	}
 	
+
 	public Admin getAdminDetails(@Valid UUID adminId) {
+
 		Admin admin = adminRepository.findById(adminId).orElseThrow(null);
 		return admin;
 	}
-	
+
 }

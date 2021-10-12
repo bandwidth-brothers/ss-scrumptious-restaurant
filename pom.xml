@@ -15,7 +15,7 @@
 	<name>Food Delivery Restaurant Service</name>
 	<description>Food Delivery Scrumptious Restaurant Micro-Service</description>
 	<properties>
-		<java.version>8</java.version>
+		<java.version>11</java.version>
 		<spring-cloud.version>2020.0.3</spring-cloud.version>
 	</properties>
 	<dependencies>
@@ -133,34 +133,34 @@
 					</excludes>
 				</configuration>
 			</plugin>
-
-<!--			&lt;!&ndash; Linting check &ndash;&gt;-->
-<!--			<plugin>-->
-<!--				<groupId>org.apache.maven.plugins</groupId>-->
-<!--				<artifactId>maven-checkstyle-plugin</artifactId>-->
-<!--				<version>3.1.1</version>-->
-<!--				<configuration>-->
-<!--					<configLocation>config/google_checks.xml</configLocation>-->
-<!--					<encoding>UTF-8</encoding>-->
-<!--					<consoleOutput>true</consoleOutput>-->
-<!--					<failsOnError>true</failsOnError>-->
-<!--					<maxAllowedViolations>0</maxAllowedViolations>-->
-<!--					<violationSeverity>ALL</violationSeverity>-->
-<!--					<failOnViolation>true</failOnViolation>-->
-<!--				</configuration>-->
-<!--				<executions>-->
-<!--					<execution>-->
-<!--						<id>validate</id>-->
-<!--						<phase>validate</phase>-->
-<!--						<goals>-->
-<!--							<goal>check</goal>-->
-<!--						</goals>-->
-<!--					</execution>-->
-<!--				</executions>-->
-<!--			</plugin>-->
-
-
+      <plugin>
+        <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.4</version>
+       		<executions>
+            <execution>
+             	<id>prepare-agent</id>
+              <goals>
+             	  <goal>prepare-agent</goal>
+             	</goals>
+              <phase>test-compile</phase>
+		        </execution>
+            <execution>
+              <id>report</id>
+              <phase>package</phase>
+              <goals>
+            	  <goal>report</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.7.0.1746</version>
+			</plugin>
 		</plugins>
 	</build>
 
 </project>
+
