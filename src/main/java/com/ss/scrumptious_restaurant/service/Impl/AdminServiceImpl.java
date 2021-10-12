@@ -46,7 +46,9 @@ public class AdminServiceImpl implements AdminService{
         return adminRet.getId();
 	}
 	
-	public Admin getAdminById(@Valid UUID adminId) {
+
+	public Admin getAdminDetails(@Valid UUID adminId) {
+
 		Admin admin = adminRepository.findById(adminId).orElseThrow(null);
 		return admin;
 	}
