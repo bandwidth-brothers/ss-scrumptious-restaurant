@@ -119,6 +119,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 		}
 
 
+
     @Override
     public void deactivateRestaurantById(Long rid) {
         Restaurant r = restaurantRepository.findById(rid).orElseThrow(() -> new NoSuchElementException("restaurant not exist" + rid));
@@ -132,10 +133,17 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
 
+
+	
+
 	@Override
 	public RestaurantOwner getOwnerByRestaurantId(Long restaurantId) {
 		Restaurant restaurant = getRestaurantById(restaurantId);
 		return restaurant.getOwner();
+
 	}
+
+
+	}	
 
 }

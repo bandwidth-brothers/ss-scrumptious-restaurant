@@ -25,11 +25,13 @@ public class AdminServiceImpl implements AdminService{
 	private AdminRepository adminRepository;
 	private UserRepository userRepository;
 
+
 	@Override
 	public Admin getAdminById(UUID adminId) {
 		Admin admin = adminRepository.findById(adminId).orElseThrow(null);
 		return admin;
 	}
+
 
 	public UUID createNewAdmin(@Valid CreateAdminDto adminDto) {
 		AuthDto authDto = AuthDto.builder().email(adminDto.getEmail())
@@ -46,10 +48,18 @@ public class AdminServiceImpl implements AdminService{
 				.email(adminDto.getEmail())
 				.phone(adminDto.getPhone())
 				.build();
-
-
+			
+		
 		Admin adminRet = adminRepository.save(admin);
         return adminRet.getId();
 	}
+	
+
+	public Admin getAdminDetails(@Valid UUID adminId) {
+
+		Admin admin = adminRepository.findById(adminId).orElseThrow(null);
+		return admin;
+	}
+
 
 }

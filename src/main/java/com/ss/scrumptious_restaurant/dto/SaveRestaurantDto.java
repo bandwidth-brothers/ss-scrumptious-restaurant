@@ -24,8 +24,10 @@ public class SaveRestaurantDto {
 	@NotBlank
 	private final String name;
 
+
 	@Builder.Default
 	private final Boolean isActive=true;
+
 
 	private final String lineOne;
 

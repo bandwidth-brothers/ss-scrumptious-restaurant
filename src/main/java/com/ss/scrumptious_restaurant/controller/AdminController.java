@@ -45,7 +45,7 @@ public class AdminController {
 
 		return ResponseEntity.ok(admin);
 	}
-
+	
 	@GetMapping("/owners")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<List<RestaurantOwner>> getAllRestaurantOwners() {
@@ -56,7 +56,12 @@ public class AdminController {
 		} else {
 			return ResponseEntity.ok(restaurantOwners);
 		}
+
 	}
+
+
+	}	
+	
 
 	@GetMapping("/restaurants/{restaurantId}/owner")
 	@PreAuthorize("hasAnyRole('ADMIN')")
