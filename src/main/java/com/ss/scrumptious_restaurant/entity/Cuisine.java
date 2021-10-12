@@ -38,8 +38,5 @@ public class Cuisine {
 	@Column(unique = true)
 	private String type;
 
-//	@JsonIgnore
-//	@ManyToMany(mappedBy = "cuisines")
-//	@EqualsAndHashCode.Exclude
-//	private Set<Restaurant> restaurants = new HashSet<>();
+
 }
