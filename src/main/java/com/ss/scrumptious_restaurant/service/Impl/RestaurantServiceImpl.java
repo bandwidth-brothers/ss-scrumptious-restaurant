@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import com.ss.scrumptious_restaurant.dao.AddressRepository;
@@ -24,6 +25,7 @@ import com.ss.scrumptious_restaurant.service.RestaurantService;
 
 import lombok.AllArgsConstructor;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class RestaurantServiceImpl implements RestaurantService {
@@ -64,7 +66,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     public List<Restaurant> getOwnerRestaurants(UUID ownerId) {
-		RestaurantOwner restaurantOwner = restaurantOwnerService.getRestaurantOwnerById(ownerId);	
+		RestaurantOwner restaurantOwner = restaurantOwnerService.getRestaurantOwnerById(ownerId);
 		return restaurantRepository.findByOwner(restaurantOwner);
 	}
 
@@ -108,10 +110,22 @@ public class RestaurantServiceImpl implements RestaurantService {
         updateRestaurantCuisines(dto.getCategories(), restaurantId);
     }
 
-   
+
 
 	public List<RestaurantOwner> getAllRestaurantOwners() {
 		List<RestaurantOwner> RestaurantOwners = restaurantOwnerService.getAllRestaurantOwners();
 		return RestaurantOwners;
 		}
+
+    @Override
+    public void deactivateRestaurantById(Long rid) {
+        Restaurant r = restaurantRepository.findById(rid).orElseThrow(() -> new NoSuchElementException("restaurant not exist" + rid));
+        try{
+            r.setIsActive(false);
+            restaurantRepository.save(r);
+        }catch (Exception e){
+            log.error("deActiveRestaurantById: " + rid + " " + e.getMessage());
+        }
+
+    }
 }

@@ -2,6 +2,7 @@ package com.ss.scrumptious_restaurant.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -50,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         		.addFilter(new JwtAuthenticationVerificationFilter(authenticationManager(), securityConstants))
         		.authorizeRequests()
                 .antMatchers("/h2-console/*").permitAll()
-                .antMatchers("/owner/register/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/owners/register").permitAll()
                 .antMatchers("/admin/register/**").permitAll()
                 //.antMatchers("/test").permitAll()
                 .antMatchers(AUTH_WHITELIST).permitAll()

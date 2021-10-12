@@ -7,25 +7,25 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.ss.scrumptious_restaurant.entity.MenuItem;
+import com.ss.scrumptious_restaurant.entity.Menuitem;
 
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class MenuItemSpecifications implements Specification<MenuItem> {
+public class MenuItemSpecifications implements Specification<Menuitem> {
 
 	private SearchCriteria criteria;
-	
+
 	@Override
-	public Predicate toPredicate(Root<MenuItem> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+	public Predicate toPredicate(Root<Menuitem> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 		if (criteria.getOperation().equalsIgnoreCase(">")) {
             return builder.greaterThanOrEqualTo(
               root.<String> get(criteria.getKey()), criteria.getValue().toString());
-        } 
+        }
         else if (criteria.getOperation().equalsIgnoreCase("<")) {
             return builder.lessThanOrEqualTo(
               root.<String> get(criteria.getKey()), criteria.getValue().toString());
-        } 
+        }
         else if (criteria.getOperation().equalsIgnoreCase(":")) {
             if (root.get(criteria.getKey()).getJavaType() == String.class) {
                 return builder.like(

@@ -10,6 +10,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,13 +20,28 @@ import lombok.ToString;
 @ToString
 @Builder
 public class SaveRestaurantDto {
+	@NotNull
+	@NotBlank
 	private final String name;
 
+	@NotNull
+	@NotBlank
 	private final String lineOne;
+
 	private final String lineTwo;
+
+	@NotNull
+	@NotBlank(message = "city cannot be blank.")
 	private final String city;
+
+	@NotNull
+	@NotBlank(message = "state cannot be blank.")
 	private final String state;
+
+	@NotNull
+	@NotBlank(message = "zipcode cannot be blank.")
 	private final String zip;
+
 	private UUID restaurantOwnerId;
 	private final Integer restaurantId;
 	private final String phone;
