@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,12 +21,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.ss.scrumptious_restaurant.dto.SaveMenuItemDto;
 import com.ss.scrumptious_restaurant.entity.MenuCategory;
-import com.ss.scrumptious_restaurant.entity.MenuItem;
+import com.ss.scrumptious_restaurant.entity.Menuitem;
 import com.ss.scrumptious_restaurant.entity.Tag;
 import com.ss.scrumptious_restaurant.service.MenuService;
 
 import lombok.RequiredArgsConstructor;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/menu")
@@ -35,43 +37,43 @@ public class MenuController {
 
 	@GetMapping("/restaurants/{restaurantId}/menu-items")
 	@PreAuthorize("hasAnyRole('OWNER','ADMIN','CUSTOMER')")
-	public ResponseEntity<List<MenuItem>> getAllMenuItemsFromRestaurant(@PathVariable Long restaurantId,
-			@RequestParam(value = "search", required=false) String search) {
-		List<MenuItem> menuItems; 
+	public ResponseEntity<List<Menuitem>> getAllMenuItemsFromRestaurant(@PathVariable Long restaurantId,
+																		@RequestParam(value = "search", required=false) String search) {
+		List<Menuitem> menuitems;
 		if (search == null) {
-			menuItems = menuService.getAllMenuItemsFromRestaurant(restaurantId);
+			menuitems = menuService.getAllMenuItemsFromRestaurant(restaurantId);
 		} else {
-			menuItems = menuService.searchMenuItemsFromRestaurant(search, restaurantId);
+			menuitems = menuService.searchMenuItemsFromRestaurant(search, restaurantId);
 		}
 
-		if (menuItems.size() == 0) {
+		if (menuitems.size() == 0) {
 			return ResponseEntity.noContent().build();
 		} else {
-			return ResponseEntity.ok(menuItems);
+			return ResponseEntity.ok(menuitems);
 		}
 	}
 
 	@GetMapping("/menu-items")
 	@PreAuthorize("hasAnyRole('OWNER','ADMIN','CUSTOMER')")
-	public ResponseEntity<List<MenuItem>> getAllMenuItems(@RequestParam(value = "search", required=false) String search) {
-		List<MenuItem> menuItems;
+	public ResponseEntity<List<Menuitem>> getAllMenuItems(@RequestParam(value = "search", required=false) String search) {
+		List<Menuitem> menuitems;
 		if (search == null) {
-			menuItems = menuService.getAllMenuItems();
+			menuitems = menuService.getAllMenuItems();
 		} else {
-			menuItems = menuService.searchMenuItems(search);
+			menuitems = menuService.searchMenuItems(search);
 		}
 
-		if (menuItems.size() == 0) {
+		if (menuitems.size() == 0) {
 			return ResponseEntity.noContent().build();
 		} else {
-			return ResponseEntity.ok(menuItems);
+			return ResponseEntity.ok(menuitems);
 		}
 	}
 
 	@GetMapping("/restaurants/{restaurantId}/menu-items/{menuId}")
 	@PreAuthorize("hasAnyRole('OWNER','ADMIN','CUSTOMER')")
-	public ResponseEntity<MenuItem> getMenuItemFromRestaurant(@PathVariable Long restaurantId, @PathVariable Long menuId) {
-		MenuItem menuItem = menuService.getMenuItemFromRestaurant(restaurantId, menuId);
+	public ResponseEntity<Menuitem> getMenuItemFromRestaurant(@PathVariable Long restaurantId, @PathVariable Long menuId) {
+		Menuitem menuItem = menuService.getMenuItemFromRestaurant(restaurantId, menuId);
 
 		return ResponseEntity.ok(menuItem);
 
@@ -81,7 +83,8 @@ public class MenuController {
 	@PreAuthorize("hasRole('ADMIN')" + " OR @ownerAuthenticationManager.ownerIdMatches(authentication, #restaurantId)")
 	public ResponseEntity<Void> createNewMenuItem(@Valid @RequestBody SaveMenuItemDto menuItemDto,
 			@PathVariable Long restaurantId) {
-		MenuItem menuItem = menuService.createMenuItem(menuItemDto, restaurantId);
+		log.info("rid:" + restaurantId);
+		Menuitem menuItem = menuService.createMenuItem(menuItemDto, restaurantId);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{restaurantId}")
 	            .buildAndExpand(menuItem.getId()).toUri();
 		return ResponseEntity.created(location).build();
@@ -98,8 +101,8 @@ public class MenuController {
 
     @GetMapping("/restaurants/menu-items/{menuId}")
 	@PreAuthorize("hasAnyRole('OWNER','ADMIN','CUSTOMER')")
-    public ResponseEntity<MenuItem> getMenuItem(@PathVariable Long menuId) {
-        MenuItem m = menuService.getMenuItemById(menuId);
+    public ResponseEntity<Menuitem> getMenuItem(@PathVariable Long menuId) {
+        Menuitem m = menuService.getMenuItemById(menuId);
         return ResponseEntity.ok(m);
     }
 

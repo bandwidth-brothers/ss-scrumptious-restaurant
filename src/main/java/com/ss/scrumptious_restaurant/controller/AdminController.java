@@ -30,14 +30,14 @@ public class AdminController {
 
 	private final AdminService adminService;
 	private final RestaurantService restaurantService;
-	
+
 	@PostMapping("/register")
 	public ResponseEntity<UUID> createAdmin(
 			@Valid @RequestBody CreateAdminDto createAdminDto) {
 		UUID uid = adminService.createNewAdmin(createAdminDto);
 		return ResponseEntity.of(Optional.ofNullable(uid));
 	}
-	
+
 	@GetMapping("/{adminId}")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Admin> getAdminById(@PathVariable UUID adminId){
@@ -56,8 +56,13 @@ public class AdminController {
 		} else {
 			return ResponseEntity.ok(restaurantOwners);
 		}
+
+	}
+
+
 	}	
 	
+
 	@GetMapping("/restaurants/{restaurantId}/owner")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<RestaurantOwner> getOwnerByRestaurantId(@PathVariable Long restaurantId) {

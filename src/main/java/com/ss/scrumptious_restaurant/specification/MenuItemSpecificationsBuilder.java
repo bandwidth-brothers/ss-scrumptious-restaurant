@@ -11,13 +11,13 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.ss.scrumptious_restaurant.entity.MenuItem;
+import com.ss.scrumptious_restaurant.entity.Menuitem;
 import com.ss.scrumptious_restaurant.entity.Restaurant;
 
 public class MenuItemSpecificationsBuilder {
 	private final List<SearchCriteria> params;
 	private Specification result;
-	
+
     public MenuItemSpecificationsBuilder() {
         params = new ArrayList<SearchCriteria>();
     }
@@ -35,32 +35,32 @@ public class MenuItemSpecificationsBuilder {
         List<Specification> specs = params.stream()
           .map(MenuItemSpecifications::new)
           .collect(Collectors.toList());
-        
+
         result = specs.get(0);
 
         for (int i = 1; i < params.size(); i++) {
             result = Specification.where(result)
                   .and(specs.get(i));
-        }       
+        }
         return this;
     }
-    
+
     public MenuItemSpecificationsBuilder isFromRestaurant(Restaurant rest){
-    	Specification<MenuItem> spec = new Specification<MenuItem>() {
+    	Specification<Menuitem> spec = new Specification<Menuitem>() {
     		@Override
-    		public Predicate toPredicate(Root<MenuItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-    	        
+    		public Predicate toPredicate(Root<Menuitem> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+
     			return cb.equal(root.get("restaurant").as(Restaurant.class), rest);
     	      }
     	    };
-    	
+
     	result = Specification.where(result)
     			.and(spec);
-    	
+
     	return this;
     }
-    
-    public Specification<MenuItem> build() {
+
+    public Specification<Menuitem> build() {
     	return result;
     }
 }

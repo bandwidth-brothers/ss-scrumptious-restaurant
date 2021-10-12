@@ -7,8 +7,11 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.ss.scrumptious_restaurant.dto.SaveRestaurantDto;
@@ -28,6 +32,7 @@ import com.ss.scrumptious_restaurant.service.RestaurantService;
 
 import lombok.RequiredArgsConstructor;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/restaurants")
@@ -56,19 +61,19 @@ public class RestaurantController {
 			return ResponseEntity.ok(restaurants);
 		}
 	}
-	
+
 	@GetMapping("/restaurants/menu-items")
 	@PreAuthorize("hasAnyRole('OWNER','ADMIN','CUSTOMER')")
 	public ResponseEntity<Set<Restaurant>> getRestaurantsFromMenuItemSearch(@RequestParam(value = "search") String search){
 		Set<Restaurant> restaurants = menuService.getRestaurantsFromMenuItemSearch(search);
-		
+
 		if (restaurants.size() == 0) {
 			return ResponseEntity.noContent().build();
 		} else {
 			return ResponseEntity.ok(restaurants);
 		}
 	}
-	
+
 	@GetMapping("/owners/{ownerId}/restaurants")
 	@PreAuthorize("hasRole('ADMIN')" + " OR @ownerAuthenticationManager.ownerIdMatches(authentication, #ownerId)")
 	public ResponseEntity<List<Restaurant>> getAllRestaurantsWithOwner(@PathVariable UUID ownerId) {
@@ -94,19 +99,20 @@ public class RestaurantController {
 		Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
 		return ResponseEntity.ok(restaurant);
 	}
-	
-	
+
+
 	@PutMapping("/owners/{ownerId}/restaurants/{restaurantId}")
 	@PreAuthorize("hasRole('ADMIN')" + " OR @ownerAuthenticationManager.ownerIdMatches(authentication, #ownerId)")
 	public ResponseEntity<Void> updateRestaurantByIdWithOwner(@PathVariable UUID ownerId, @PathVariable Long restaurantId,
 			@Valid @RequestBody SaveRestaurantDto dto) {
+		log.info("dto: " + dto);
 		restaurantService.updateRestaurantById(restaurantId, dto);
 		return ResponseEntity.noContent().build();
 	}
 	
 	/**
 	 * json format array: ["bbq", "bar", "pizza"]
-	 * 
+	 *
 	 * @param ownerId
 	 * @param restaurantId
 	 * @param categoryList
@@ -123,6 +129,14 @@ public class RestaurantController {
 		} else {
 			return ResponseEntity.ok().body(restaurantCuisines);
 		}
+	}
+
+	@DeleteMapping("/{restaurantId}")
+	@PreAuthorize("hasRole('ADMIN')" + " OR @ownerAuthenticationManager.ownerIdMatches(authentication, #restaurantId)")
+	public ResponseEntity<Void> deactivateRestaurantById(@PathVariable Long restaurantId) {
+		log.info("restaurantId: " + restaurantId);
+		restaurantService.deactivateRestaurantById(restaurantId);
+		return ResponseEntity.noContent().build();
 	}
 
 }

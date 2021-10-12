@@ -19,4 +19,6 @@ public interface RestaurantService {
 	List<Restaurant> getOwnerRestaurants(UUID ownerId);
 	RestaurantOwner getOwnerByRestaurantId(Long restaurantId);
 	List<RestaurantOwner> getAllRestaurantOwners();
+
+    void deactivateRestaurantById(Long rid);
 }

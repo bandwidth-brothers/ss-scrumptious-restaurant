@@ -9,5 +9,5 @@ public interface AdminService {
 
 	Admin getAdminById(UUID adminId);
 	UUID createNewAdmin(CreateAdminDto createAdminDto);
-	
+
 }

@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,17 +24,18 @@ import com.ss.scrumptious_restaurant.service.RestaurantOwnerService;
 
 import lombok.RequiredArgsConstructor;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/owners")
 public class OwnerController {
 
 	private final RestaurantOwnerService ownerService;
-	
+
 	@PostMapping("/register")
-	@PreAuthorize("hasRole('ADMIN')" + " OR @ownerAuthenticationManager.ownerIdMatches(authentication, #ownerId)")
     public ResponseEntity<UUID> createRestaurantOwner(@Valid @RequestBody CreateRestaurantOwnerDto creatRestaurantOwnerDto) {
-        UUID ownerId = ownerService.createNewRestaurantOwner(creatRestaurantOwnerDto);
+        log.info("creatRestaurantOwnerDto: " + creatRestaurantOwnerDto);
+	    UUID ownerId = ownerService.createNewRestaurantOwner(creatRestaurantOwnerDto);
         return ResponseEntity.of(Optional.ofNullable(ownerId));
     }
 
