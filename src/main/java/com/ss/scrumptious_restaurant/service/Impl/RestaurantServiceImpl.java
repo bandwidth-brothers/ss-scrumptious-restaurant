@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.ss.scrumptious_restaurant.dao.AddressRepository;
 import com.ss.scrumptious_restaurant.dao.CuisineRepository;
+import com.ss.scrumptious_restaurant.dao.RestaurantOwnerRepository;
 import com.ss.scrumptious_restaurant.dao.RestaurantRepository;
 import com.ss.scrumptious_restaurant.dto.SaveRestaurantDto;
 import com.ss.scrumptious_restaurant.entity.Address;
@@ -107,7 +108,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         updateRestaurant.setRating(r.getRating());
 
         restaurantRepository.save(updateRestaurant);
-        updateRestaurantCuisines(dto.getCategories(), restaurantId);
+        updateRestaurantCuisines(dto.getCuisines(), restaurantId);
     }
 
 
@@ -116,6 +117,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 		List<RestaurantOwner> RestaurantOwners = restaurantOwnerService.getAllRestaurantOwners();
 		return RestaurantOwners;
 		}
+
 
     @Override
     public void deactivateRestaurantById(Long rid) {
@@ -128,4 +130,12 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
 
     }
+
+
+	@Override
+	public RestaurantOwner getOwnerByRestaurantId(Long restaurantId) {
+		Restaurant restaurant = getRestaurantById(restaurantId);
+		return restaurant.getOwner();
+	}
+
 }

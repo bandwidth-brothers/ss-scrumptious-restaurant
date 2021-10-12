@@ -21,15 +21,18 @@ public class OrderController {
     private final OrderRepository orderRepository;
 
     @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
-    @GetMapping("/restaurants/{rid}/orders")
-    public ResponseEntity<List<Order>> getOrdersByRestaurantId(@PathVariable Long rid) {
-        List<Order> orders = orderService.getOrdersByRestaurant(rid);
+    @GetMapping("/restaurants/{restaurantId}/orders")
+    public ResponseEntity<List<Order>> getOrdersByRestaurantId(@PathVariable Long restaurantId) {
+        List<Order> orders = orderService.getOrdersByRestaurant(restaurantId);
+        if (orders.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.ok(orders);
     }
 
     @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
-    @PutMapping("/restaurants/{rid}/orders")
-    public ResponseEntity<Void> updateOrderStatusByIds(@PathVariable Long rid,
+    @PutMapping("/restaurants/{restaurantId}/orders")
+    public ResponseEntity<Void> updateOrderStatusByIds(@PathVariable Long restaurantId,
                                                        @RequestBody OrderStatusUpdateDto dto) {
         log.info("OrderStatusUpdateDto: " + dto);
         orderService.updateOrderStatusByIds(dto);
@@ -37,9 +40,9 @@ public class OrderController {
     }
 
     @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
-    @GetMapping("/{oid}")
-    public ResponseEntity<Order> getOrdersById(@PathVariable Long oid) {
-        Order order = orderService.getOrdersById(oid);
+    @GetMapping("/{orderId}")
+    public ResponseEntity<Order> getOrdersById(@PathVariable Long orderId) {
+        Order order = orderService.getOrdersById(orderId);
         return ResponseEntity.ok(order);
     }
 }

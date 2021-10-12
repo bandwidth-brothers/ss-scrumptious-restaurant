@@ -23,8 +23,8 @@ public class OrderServiceImpl implements OrderService {
     private final RestaurantService restaurantService;
 
     @Override
-    public List<Order> getOrdersByRestaurant(Long rid) {
-        Restaurant res = restaurantService.getRestaurantById(rid);
+    public List<Order> getOrdersByRestaurant(Long restaurantId) {
+        Restaurant res = restaurantService.getRestaurantById(restaurantId);
         List<Order> list = orderRepository.findAllByRestaurant(res);
         return list;
     }
@@ -36,8 +36,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order getOrdersById(Long oid) {
-        Order o = orderRepository.findById(oid).orElseThrow(() -> new NoSuchElementException("item no exist: " + oid));
-        return o;
+    public Order getOrdersById(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new NoSuchElementException("item no exist: " + orderId));
+        return order;
     }
 }

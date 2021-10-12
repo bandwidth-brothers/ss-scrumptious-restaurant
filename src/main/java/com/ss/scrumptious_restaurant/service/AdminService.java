@@ -7,7 +7,7 @@ import com.ss.scrumptious_restaurant.entity.Admin;
 
 public interface AdminService {
 
-	Admin getAdminDetails(UUID adminId);
+	Admin getAdminById(UUID adminId);
 	UUID createNewAdmin(CreateAdminDto createAdminDto);
-	
+
 }

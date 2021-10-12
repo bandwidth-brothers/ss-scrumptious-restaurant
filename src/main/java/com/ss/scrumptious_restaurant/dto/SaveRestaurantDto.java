@@ -24,8 +24,9 @@ public class SaveRestaurantDto {
 	@NotBlank
 	private final String name;
 
-	@NotNull
-	@NotBlank
+	@Builder.Default
+	private final Boolean isActive=true;
+
 	private final String lineOne;
 
 	private final String lineTwo;
@@ -46,5 +47,5 @@ public class SaveRestaurantDto {
 	private final Integer restaurantId;
 	private final String phone;
 	private final String priceCategory;
-	private  final List<String> categories;
+	private final List<String> cuisines;
 }

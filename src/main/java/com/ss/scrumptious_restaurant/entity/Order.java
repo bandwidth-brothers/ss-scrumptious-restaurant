@@ -34,7 +34,6 @@ public class Order {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
-//    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<MenuitemOrder> menuitemOrder = new HashSet<>();
 
     private String confirmationCode;
