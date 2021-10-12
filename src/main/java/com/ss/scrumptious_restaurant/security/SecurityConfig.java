@@ -50,8 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         		.addFilter(new JwtAuthenticationVerificationFilter(authenticationManager(), securityConstants))
         		.authorizeRequests()
                 .antMatchers("/h2-console/*").permitAll()
-                .antMatchers("/owner/register/**").permitAll()
-                .antMatchers("/admin/register/**").permitAll()
+                .antMatchers("/owners/register/**").permitAll()
+                .antMatchers("/admins/register/**").permitAll()
                 //.antMatchers("/test").permitAll()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated();

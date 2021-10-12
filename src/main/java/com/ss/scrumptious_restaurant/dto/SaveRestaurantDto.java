@@ -18,7 +18,7 @@ import lombok.ToString;
 @Builder
 public class SaveRestaurantDto {
 	private final String name;
-
+	private final Boolean isActive;
 	private final String lineOne;
 	private final String lineTwo;
 	private final String city;
@@ -28,5 +28,5 @@ public class SaveRestaurantDto {
 	private final Integer restaurantId;
 	private final String phone;
 	private final String priceCategory;
-	private  final List<String> categories;
+	private final List<String> cuisines;
 }
