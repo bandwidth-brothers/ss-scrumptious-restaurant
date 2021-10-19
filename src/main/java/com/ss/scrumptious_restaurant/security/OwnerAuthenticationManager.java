@@ -14,8 +14,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OwnerAuthenticationManager {
 
-	private RestaurantRepository restaurantRepository;
-	
+	private final RestaurantRepository restaurantRepository;
+
 	public boolean ownerIdMatches(Authentication authentication, SaveRestaurantDto restaurantDto) {
 		try {
 			JwtPrincipalModel principal = (JwtPrincipalModel) authentication.getPrincipal();
@@ -24,7 +24,7 @@ public class OwnerAuthenticationManager {
 			return false;
 		}
 	}
-	
+
 	public boolean ownerIdMatches(Authentication authentication, UUID ownerId) {
 		try {
 			JwtPrincipalModel principal = (JwtPrincipalModel) authentication.getPrincipal();
@@ -33,7 +33,7 @@ public class OwnerAuthenticationManager {
 			return false;
 		}
 	}
-	
+
 	public boolean ownerIdMatches(Authentication authentication, Long restaurantId) {
 		try {
 			JwtPrincipalModel principal = (JwtPrincipalModel) authentication.getPrincipal();
@@ -44,8 +44,8 @@ public class OwnerAuthenticationManager {
 			return false;
 		}
 	}
-	
-	
+
+
 	public boolean ownerEmailMatches(Authentication authentication, String email) {
 		try {
 			JwtPrincipalModel principal = (JwtPrincipalModel) authentication.getPrincipal();

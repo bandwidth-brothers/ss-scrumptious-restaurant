@@ -33,13 +33,10 @@ public class Cuisine {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false)
 	private Long id;
-	
+
 	@NotBlank
 	@Column(unique = true)
 	private String type;
-	
-	@JsonIgnore
-	@ManyToMany(mappedBy = "cuisines")
-	@EqualsAndHashCode.Exclude
-	private Set<Restaurant> restaurants = new HashSet<>();
+
+
 }

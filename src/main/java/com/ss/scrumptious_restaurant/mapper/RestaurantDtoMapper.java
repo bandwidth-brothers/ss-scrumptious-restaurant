@@ -11,6 +11,7 @@ public class RestaurantDtoMapper {
         return Restaurant.builder()
                 .name(dto.getName())
                 .phone(dto.getPhone())
+                .isActive(dto.getIsActive())
                 .priceCategory(PriceCategory.valueOf(dto.getPriceCategory()))
                 .address(Address.builder()
                         .lineOne(dto.getLineOne())

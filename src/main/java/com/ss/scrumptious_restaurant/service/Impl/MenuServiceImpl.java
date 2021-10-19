@@ -20,7 +20,7 @@ import com.ss.scrumptious_restaurant.dao.RestaurantRepository;
 import com.ss.scrumptious_restaurant.dao.TagRepository;
 import com.ss.scrumptious_restaurant.dto.SaveMenuItemDto;
 import com.ss.scrumptious_restaurant.entity.MenuCategory;
-import com.ss.scrumptious_restaurant.entity.MenuItem;
+import com.ss.scrumptious_restaurant.entity.Menuitem;
 import com.ss.scrumptious_restaurant.entity.Restaurant;
 import com.ss.scrumptious_restaurant.entity.Tag;
 import com.ss.scrumptious_restaurant.service.MenuService;
@@ -38,12 +38,12 @@ public class MenuServiceImpl implements MenuService {
     private RestaurantService restaurantService;
     private TagRepository tagRepository;
     private MenuCategoryRepository menuCategoryRepository;
-	
-	
+
+
 	@Transactional
-	public MenuItem createMenuItem(@Valid SaveMenuItemDto menuItemDto, Long restaurantId) {
+	public Menuitem createMenuItem(@Valid SaveMenuItemDto menuItemDto, Long restaurantId) {
 		Restaurant r = restaurantService.getRestaurantById(restaurantId);
-        MenuItem menuItem = MenuItem.builder()
+        Menuitem menuItem = Menuitem.builder()
                 .name(menuItemDto.getName())
                 .price(Money.of(menuItemDto.getPrice(), "USD"))
                 .isAvailable(menuItemDto.getIsAvailable())
@@ -54,17 +54,17 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-    public MenuItem getMenuItemById(Long menuId) {
-        MenuItem menuItem = menuItemRepository.findById(menuId).orElseThrow(() -> new NoSuchElementException("MenuItem not exist"));
+    public Menuitem getMenuItemById(Long menuId) {
+        Menuitem menuItem = menuItemRepository.findById(menuId).orElseThrow(() -> new NoSuchElementException("MenuItem not exist"));
         return menuItem;
     }
 
-    
+
 
     @Transactional
     @Override
     public List<Tag> updateMenuItemTag(List<String> tagList, Long menuId) {
-        MenuItem menu = getMenuItemById(menuId);
+        Menuitem menu = getMenuItemById(menuId);
 
         List<Tag> list = tagList.stream()
                 .filter(s -> !tagRepository.existsTagByType(s))
@@ -80,7 +80,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuCategory> updateMenuItemCategory(List<String> categoryList, Long menuId) {
-        MenuItem menu = getMenuItemById(menuId);
+        Menuitem menu = getMenuItemById(menuId);
 
         List<MenuCategory> list = categoryList.stream()
                 .filter(s -> !menuCategoryRepository.existsMenuCategoryByType(s))
@@ -98,7 +98,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public void updateMenuItemById(SaveMenuItemDto menuItemDto, Long menuId) {
 
-        MenuItem menu = getMenuItemById(menuId);
+        Menuitem menu = getMenuItemById(menuId);
         menu.setDescription(menuItemDto.getDescription());
         menu.setDiscount(menuItemDto.getDiscount());
         menu.setIsAvailable(menuItemDto.getIsAvailable());
@@ -116,34 +116,34 @@ public class MenuServiceImpl implements MenuService {
     public void deleteMenuItemByIds(List<Long> ids) {
         menuItemRepository.deleteMenuItemsByIdIn(ids);
     }
-	
+
     @Override
-	public List<MenuItem> getAllMenuItems() {
+	public List<Menuitem> getAllMenuItems() {
 		return menuItemRepository.findAll();
 	}
 
     @Override
-	public List<MenuItem> getAllMenuItemsFromRestaurant(Long restaurantId) {
+	public List<Menuitem> getAllMenuItemsFromRestaurant(Long restaurantId) {
 		Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
 		return menuItemRepository.findAllByRestaurant(restaurant);
 	}
 
     @Override
-	public MenuItem getMenuItemFromRestaurant(Long restaurantId, Long menuId) {
+	public Menuitem getMenuItemFromRestaurant(Long restaurantId, Long menuId) {
 		Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
-		MenuItem menuItem = menuItemRepository.findByIdAndRestaurant(menuId, restaurant);
+		Menuitem menuItem = menuItemRepository.findByIdAndRestaurant(menuId, restaurant);
 		return menuItem;
 	}
 
     @Override
-	public List<MenuItem> searchMenuItems(String search) {
+	public List<Menuitem> searchMenuItems(String search) {
 		 MenuItemSpecificationsBuilder builder = new MenuItemSpecificationsBuilder();
 	        Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
 	        Matcher matcher = pattern.matcher(search + ",");
 	        while (matcher.find()) {
 	            builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
-	        } 
-	        Specification<MenuItem> spec = builder
+	        }
+	        Specification<Menuitem> spec = builder
 	        		.search()
 	        		.build();
 	        return menuItemRepository.findAll(spec);
@@ -151,23 +151,23 @@ public class MenuServiceImpl implements MenuService {
 
 
     @Override
-	public List<MenuItem> searchMenuItemsFromRestaurant(String search, Long restaurantId) {
+	public List<Menuitem> searchMenuItemsFromRestaurant(String search, Long restaurantId) {
 		Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(null);
-		
+
 		System.out.println(search);
-		
+
 		MenuItemSpecificationsBuilder builder = new MenuItemSpecificationsBuilder();
         Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
         Matcher matcher = pattern.matcher(search + ",");
         while (matcher.find()) {
             builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
         }
-        
-        Specification<MenuItem> spec = builder
+
+        Specification<Menuitem> spec = builder
         		.search()
         		.isFromRestaurant(restaurant)
         		.build();
-        
+
         return menuItemRepository.findAll(spec);
 	}
 
@@ -179,22 +179,22 @@ public class MenuServiceImpl implements MenuService {
         while (matcher.find()) {
             builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
         }
-        
-        Specification<MenuItem> spec = builder
+
+        Specification<Menuitem> spec = builder
         		.search()
         		.build();
-        
+
         Set<Restaurant> restaurants = menuItemRepository.findAll(spec).stream()
         		.map(item -> item.getRestaurant())
         		.collect(Collectors.toSet());
-        	
+
         return restaurants;
 	}
 
-	
 
-	
 
-	
+
+
+
 
 }
