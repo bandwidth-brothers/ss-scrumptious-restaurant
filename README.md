@@ -5,6 +5,7 @@ Microservice to handle Restaurant Owner and Admin accounts.
 Restaurant Microservice also allows control to:
 - Restaurants
 - Menu Items
+- Admins
 
 ## Documentation
 
