@@ -5,7 +5,7 @@ pipeline{
     environment
     {
         IMG_NAME = "restaurant_service"
-        AWS_ID = "419106922284"
+        AWS_ID = credentials('AWS_ID')
 
     }
 
