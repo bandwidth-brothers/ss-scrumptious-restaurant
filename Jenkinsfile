@@ -1,13 +1,6 @@
 pipeline{
 
-     agent any
-
-    environment
-    {
-        IMG_NAME = "restaurant_service"
-        AWS_ID = credentials('AWS_ID')
-
-    }
+  agent any
 
   tools
   {
@@ -18,36 +11,6 @@ pipeline{
   stages
   {
        
-    //    stage("Build")
-    //    {
-    //         steps {
-    //              sh 'mvn clean install'
-    //         }
-    //    }
-       
-    //    stage("Test")
-    //    {
-    //             steps
-    //             {
-    //                 sh 'mvn test'
-    //                 junit '**/target/surefire-reports/*.xml'
-    //             }
-    //    } 
-         
-    //    stage('Code Analysis: Sonarqube')
-    //    {
-    //                steps {
-    //                    withSonarQubeEnv('sonarqube') {
-    //                        sh 'mvn sonar:sonar'
-    //                    }
-    //                }
-    //    }
-    //    stage('Await Quality Gateway') 
-    //    {
-    //         steps {
-    //             waitForQualityGate abortPipeline: false
-    //         }
-    //    }
       stage("Package")
       {
             steps
