@@ -2,6 +2,13 @@ pipeline{
 
   agent any
 
+  environment
+  {
+    DB_ENDPOINT = credentials('DB_ENDPOINT')
+    DB_USERNAME = credentials('DB_USERNAME')
+    DB_PASSWORD = credentials('DB_PASSWORD')
+  }
+
   tools
   {
             maven 'maven'
