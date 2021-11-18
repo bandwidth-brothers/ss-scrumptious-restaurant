@@ -41,7 +41,7 @@ public class Order {
 
     private ZonedDateTime requestedDeliveryTime;
 
-    private Float orderDiscount;
+    private Float discount;
 
     @CreationTimestamp
     private ZonedDateTime submittedAt;
