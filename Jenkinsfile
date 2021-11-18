@@ -6,9 +6,6 @@ pipeline{
   {
     IMG_NAME = "restaurant_service"
     AWS_ID = credentials('AWS_ID')
-    DB_ENDPOINT = credentials('DB_ENDPOINT')
-    DB_USERNAME = credentials('DB_USERNAME')
-    DB_PASSWORD = credentials('DB_PASSWORD')
   }
 
   tools
