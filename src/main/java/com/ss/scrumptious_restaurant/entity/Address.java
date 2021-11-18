@@ -22,10 +22,10 @@ public class Address {
     private Long id;
 
 	@NotBlank
-	private String lineOne;
+	private String line1;
 
 	@Nullable
-	private String lineTwo;
+	private String line2;
 
 	@NotBlank
 	private String city;

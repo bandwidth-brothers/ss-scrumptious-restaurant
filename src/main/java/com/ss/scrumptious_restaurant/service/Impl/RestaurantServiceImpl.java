@@ -40,8 +40,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public Restaurant createRestaurant(SaveRestaurantDto createRestaurantDto) {
         Address address = Address.builder()
-                .lineOne(createRestaurantDto.getLineOne())
-                .lineTwo(createRestaurantDto.getLineTwo())
+                .line1(createRestaurantDto.getLineOne())
+                .line2(createRestaurantDto.getLineTwo())
                 .city(createRestaurantDto.getCity())
                 .state(createRestaurantDto.getState())
                 .zip(createRestaurantDto.getZip())
