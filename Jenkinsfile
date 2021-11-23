@@ -1,5 +1,9 @@
 pipeline{
 	agent any
+	environment{
+		AWS_ID = credentials('aws-id')
+		AWS_REGION = credentials('aws-region')
+	}
 	stages{
 		stage('Checkout'){
 			steps{
@@ -31,10 +35,16 @@ pipeline{
 		}
 		stage('Deploy'){
 			steps{
-				sh "docker build -t ss-scrumptious-repo:restaurant-backend ."
 				script{
 					docker.withRegistry("https://419106922284.dkr.ecr.us-east-2.amazonaws.com/","ecr:us-east-2:aws-creds"){
 						docker.image("ss-scrumptious-repo:restaurant-backend").push()
+					}
+				}
+				sh "docker build -t ss-restaurant:${GIT_COMMIT[0..7]} -t ss-restaurant:latest ."
+				script{
+					docker.withRegistry("https://${AWS_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/","ecr:${AWS_REGION}:aws-creds"){
+						docker.image("ss-restaurant:${GIT_COMMIT[0..7]}").push()
+						docker.image("ss-restaurant:latest").push()
 					}
 				}
 				sh "docker system prune -fa"
