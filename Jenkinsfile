@@ -35,11 +35,6 @@ pipeline{
 		}
 		stage('Deploy'){
 			steps{
-				script{
-					docker.withRegistry("https://419106922284.dkr.ecr.us-east-2.amazonaws.com/","ecr:us-east-2:aws-creds"){
-						docker.image("ss-scrumptious-repo:restaurant-backend").push()
-					}
-				}
 				sh "docker build -t ss-restaurant:${GIT_COMMIT[0..7]} -t ss-restaurant:latest ."
 				script{
 					docker.withRegistry("https://${AWS_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/","ecr:${AWS_REGION}:aws-creds"){
