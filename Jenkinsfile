@@ -46,16 +46,16 @@ pipeline{
     }
     stage("Docker Build") 
     {
-        steps
-        {
-          sh "docker build -t ${env.JOB_NAME} ."
-          script{
+      steps
+      {
+        sh "docker build -t ${env.JOB_NAME} ."
+        script{
           docker.withRegistry("https://${AWS_ID}.dkr.ecr.${LOCATION}.amazonaws.com/","ecr:${LOCATION}:ecr_credentials"){
             docker.image("${env.JOB_NAME}").push()
           }
         }
+        sh "docker system prune -fa"
       }
-      sh "docker system prune -fa"
     }
   }
 }
