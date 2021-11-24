@@ -1,9 +1,9 @@
 package com.ss.scrumptious_restaurant.mapper;
 
+import com.ss.scrumptious.common_entities.entity.Address;
+import com.ss.scrumptious.common_entities.entity.PriceCategory;
+import com.ss.scrumptious.common_entities.entity.Restaurant;
 import com.ss.scrumptious_restaurant.dto.SaveRestaurantDto;
-import com.ss.scrumptious_restaurant.entity.Address;
-import com.ss.scrumptious_restaurant.entity.PriceCategory;
-import com.ss.scrumptious_restaurant.entity.Restaurant;
 
 public class RestaurantDtoMapper {
 

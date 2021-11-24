@@ -11,8 +11,8 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.ss.scrumptious_restaurant.entity.Menuitem;
-import com.ss.scrumptious_restaurant.entity.Restaurant;
+import com.ss.scrumptious.common_entities.entity.Menuitem;
+import com.ss.scrumptious.common_entities.entity.Restaurant;
 
 public class MenuItemSpecificationsBuilder {
 	private final List<SearchCriteria> params;

@@ -1,8 +1,7 @@
 package com.ss.scrumptious_restaurant.controller;
 
-import com.ss.scrumptious_restaurant.dao.OrderRepository;
+import com.ss.scrumptious.common_entities.entity.Order;
 import com.ss.scrumptious_restaurant.dto.OrderStatusUpdateDto;
-import com.ss.scrumptious_restaurant.entity.Order;
 import com.ss.scrumptious_restaurant.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +17,6 @@ import java.util.List;
 @RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
-    private final OrderRepository orderRepository;
 
     @PreAuthorize("hasAnyRole('OWNER','ADMIN')")
     @GetMapping("/restaurants/{restaurantId}/orders")

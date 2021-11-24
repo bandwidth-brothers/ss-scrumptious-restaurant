@@ -2,8 +2,8 @@ package com.ss.scrumptious_restaurant.mapper;
 
 import org.javamoney.moneta.Money;
 
+import com.ss.scrumptious.common_entities.entity.Menuitem;
 import com.ss.scrumptious_restaurant.dto.SaveMenuItemDto;
-import com.ss.scrumptious_restaurant.entity.Menuitem;
 
 public class MenuItemDtoMapper {
 

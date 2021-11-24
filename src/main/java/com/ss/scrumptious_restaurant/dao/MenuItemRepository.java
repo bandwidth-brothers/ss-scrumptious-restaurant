@@ -2,11 +2,11 @@ package com.ss.scrumptious_restaurant.dao;
 
 import java.util.List;
 
+import com.ss.scrumptious.common_entities.entity.Menuitem;
+import com.ss.scrumptious.common_entities.entity.Restaurant;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-
-import com.ss.scrumptious_restaurant.entity.Menuitem;
-import com.ss.scrumptious_restaurant.entity.Restaurant;
 
 public interface MenuItemRepository extends JpaRepository<Menuitem, Long>, JpaSpecificationExecutor<Menuitem> {
 

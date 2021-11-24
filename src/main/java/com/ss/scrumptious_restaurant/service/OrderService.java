@@ -1,7 +1,7 @@
 package com.ss.scrumptious_restaurant.service;
 
 import com.ss.scrumptious_restaurant.dto.OrderStatusUpdateDto;
-import com.ss.scrumptious_restaurant.entity.Order;
+import com.ss.scrumptious.common_entities.entity.Order;
 
 import java.util.List;
 

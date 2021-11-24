@@ -2,8 +2,8 @@ package com.ss.scrumptious_restaurant.service;
 
 import java.util.UUID;
 
+import com.ss.scrumptious.common_entities.entity.Admin;
 import com.ss.scrumptious_restaurant.dto.CreateAdminDto;
-import com.ss.scrumptious_restaurant.entity.Admin;
 
 public interface AdminService {
 
