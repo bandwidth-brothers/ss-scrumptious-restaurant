@@ -5,6 +5,7 @@ pipeline{
   environment
   {
     AWS_ID = credentials('AWS_ID')
+    LOCATION = credentials("LOCATION")
     DB_ENDPOINT = credentials('DB_ENDPOINT')
     DB_USERNAME = credentials('DB_USERNAME')
     DB_PASSWORD = credentials('DB_PASSWORD')
@@ -45,24 +46,26 @@ pipeline{
       }
       stage("Docker Build") {
 
-          steps {
-              echo "Docker Build...."
-              withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins_credentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                        sh "aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin ${AWS_ID}.dkr.ecr.us-east-2.amazonaws.com"
-              }
-              sh "docker build -t ${env.JOB_NAME} ."
-               sh "docker tag ${env.JOB_NAME}:latest ${AWS_ID}.dkr.ecr.us-east-2.amazonaws.com/${env.JOB_NAME}:latest"
-              echo "Docker Push..."
-               sh "docker push ${AWS_ID}.dkr.ecr.us-east-2.amazonaws.com/${env.JOB_NAME}:latest"
-          }
+        steps {
+            echo "Docker Build...."
+            withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins_credentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                      sh "aws ecr get-login-password --region ${LOCATION} | docker login --username AWS --password-stdin ${AWS_ID}.dkr.ecr.${LOCATION}.amazonaws.com"
+            }
+            sh "docker build -t ${env.JOB_NAME} ."
+              sh "docker tag ${env.JOB_NAME}:latest ${AWS_ID}.dkr.ecr.${LOCATION}.amazonaws.com/${env.JOB_NAME}:latest"
+            echo "Docker Push..."
+              sh "docker push ${AWS_ID}.dkr.ecr.${LOCATION}.amazonaws.com/${env.JOB_NAME}:latest"
+        }
+          steps{
+				    sh "docker build -t ${env.JOB_NAME} ."
+				    script{
+					  docker.withRegistry("https://${AWS_ID}.dkr.ecr.${LOCATION}.amazonaws.com/","ecr:${LOCATION}:ecr_credentials"){
+						docker.image("${env.JOB_NAME}").push()
+					}
+				}
+				sh "docker system prune -fa"
+			}
       }
     }
-  post
-  {
-          always
-          {
-              sh 'mvn clean'
-          }
-  }
 
 }
