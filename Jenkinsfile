@@ -44,9 +44,10 @@ pipeline{
             sh 'mvn clean package'
           }
     }
-    stage("Docker Build") {
-
-        steps{
+    stage("Docker Build") 
+    {
+        steps
+        {
           sh "docker build -t ${env.JOB_NAME} ."
           script{
           docker.withRegistry("https://${AWS_ID}.dkr.ecr.${LOCATION}.amazonaws.com/","ecr:${LOCATION}:ecr_credentials"){
