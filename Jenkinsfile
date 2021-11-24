@@ -20,52 +20,42 @@ pipeline{
   stages
   {
       
-      stage("Stage")
+    stage("Stage")
+    {
+      steps
       {
-        steps
-        {
-          script{
-            def files = findFiles(glob: '**/main/resources/application-product.properties')
-            echo """name ${files[0].name}; path:  ${files[0].path}; directory: ${files[0].directory}; length: ${files[0].length}; modified:  ${files[0].lastModified}"""
+        script{
+          def files = findFiles(glob: '**/main/resources/application-product.properties')
+          echo """name ${files[0].name}; path:  ${files[0].path}; directory: ${files[0].directory}; length: ${files[0].length}; modified:  ${files[0].lastModified}"""
 
-            def readContent = readFile "${files[0].path}"
-            writeFile file: "${files[0].path}", text: readContent+"\r\nspring.datasource.username:${DB_USERNAME}"+"\r\nspring.datasource.password:${DB_PASSWORD}"+"\r\nspring.datasource.url:${DB_ENDPOINT}"
+          def readContent = readFile "${files[0].path}"
+          writeFile file: "${files[0].path}", text: readContent+"\r\nspring.datasource.username:${DB_USERNAME}"+"\r\nspring.datasource.password:${DB_PASSWORD}"+"\r\nspring.datasource.url:${DB_ENDPOINT}"
 
-            def str=readFile file: "${files[0].path}"
-            echo str
-          }
+          def str=readFile file: "${files[0].path}"
+          echo str
         }
-      }
-
-      stage("Package")
-      {
-            steps
-            {
-                sh 'mvn clean package'
-            }
-      }
-      stage("Docker Build") {
-
-        steps {
-            echo "Docker Build...."
-            withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins_credentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                      sh "aws ecr get-login-password --region ${LOCATION} | docker login --username AWS --password-stdin ${AWS_ID}.dkr.ecr.${LOCATION}.amazonaws.com"
-            }
-            sh "docker build -t ${env.JOB_NAME} ."
-              sh "docker tag ${env.JOB_NAME}:latest ${AWS_ID}.dkr.ecr.${LOCATION}.amazonaws.com/${env.JOB_NAME}:latest"
-            echo "Docker Push..."
-              sh "docker push ${AWS_ID}.dkr.ecr.${LOCATION}.amazonaws.com/${env.JOB_NAME}:latest"
-        }
-          steps{
-				    sh "docker build -t ${env.JOB_NAME} ."
-				    script{
-					  docker.withRegistry("https://${AWS_ID}.dkr.ecr.${LOCATION}.amazonaws.com/","ecr:${LOCATION}:ecr_credentials"){
-						docker.image("${env.JOB_NAME}").push()
-					}
-				}
-				sh "docker system prune -fa"
-			}
       }
     }
 
+    stage("Package")
+    {
+          steps
+          {
+            sh 'mvn clean package'
+          }
+    }
+    stage("Docker Build") {
+
+        steps{
+          sh "docker build -t ${env.JOB_NAME} ."
+          script{
+          docker.withRegistry("https://${AWS_ID}.dkr.ecr.${LOCATION}.amazonaws.com/","ecr:${LOCATION}:ecr_credentials"){
+            docker.image("${env.JOB_NAME}").push()
+          }
+        }
+      }
+      sh "docker system prune -fa"
+    }
+  }
 }
+
