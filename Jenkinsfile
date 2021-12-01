@@ -41,7 +41,7 @@ pipeline{
     {
           steps
           {
-            sh 'mvn clean package'
+            sh './mvnw clean package -DskipTests'
           }
     }
     stage("Docker Build") 
