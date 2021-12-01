@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 
 @EnableFeignClients
-@EntityScan(basePackages = { "com.ss.scrumptious.common_entities" })
+@EntityScan(basePackages = { "com.ss.scrumptious.common_entities.entity" })
 @SpringBootApplication
 public class ScrumptiousRestaurantServiceApplication {
 
