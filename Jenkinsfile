@@ -37,17 +37,12 @@ pipeline{
       }
     }
 
-    stage('Checkout'){  
-			steps{
-				checkout scm
-				sh "chmod +x ./mvnw"
-			}
-		}
+
     stage("Package")
     {
           steps
           {
-            sh './mvnw clean package -DskipTests'
+            sh 'mvn clean package -U'
           }
     }
     stage("Docker Build") 
