@@ -9,11 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.ss.scrumptious_restaurant.client.AuthClient;
 import com.ss.scrumptious_restaurant.dao.AdminRepository;
-import com.ss.scrumptious_restaurant.dao.UserRepository;
 import com.ss.scrumptious_restaurant.dto.AuthDto;
 import com.ss.scrumptious_restaurant.dto.CreateAdminDto;
-import com.ss.scrumptious_restaurant.entity.Admin;
-import com.ss.scrumptious_restaurant.entity.User;
+import com.ss.scrumptious.common_entities.entity.Admin;
 import com.ss.scrumptious_restaurant.service.AdminService;
 
 import lombok.AllArgsConstructor;
@@ -23,8 +21,6 @@ import lombok.AllArgsConstructor;
 public class AdminServiceImpl implements AdminService{
     private final AuthClient authClient;
 	private AdminRepository adminRepository;
-	private UserRepository userRepository;
-
 
 	@Override
 	public Admin getAdminById(UUID adminId) {

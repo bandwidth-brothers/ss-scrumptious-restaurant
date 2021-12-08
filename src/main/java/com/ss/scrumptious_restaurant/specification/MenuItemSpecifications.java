@@ -7,7 +7,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.ss.scrumptious_restaurant.entity.Menuitem;
+import com.ss.scrumptious.common_entities.entity.Menuitem;
 
 import lombok.AllArgsConstructor;
 

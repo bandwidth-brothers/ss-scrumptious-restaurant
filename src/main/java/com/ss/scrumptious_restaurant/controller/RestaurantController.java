@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.ss.scrumptious.common_entities.entity.Cuisine;
+import com.ss.scrumptious.common_entities.entity.Restaurant;
 import com.ss.scrumptious_restaurant.dto.SaveRestaurantDto;
-import com.ss.scrumptious_restaurant.entity.Cuisine;
-import com.ss.scrumptious_restaurant.entity.Restaurant;
 import com.ss.scrumptious_restaurant.service.MenuService;
 import com.ss.scrumptious_restaurant.service.RestaurantService;
 

@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ss.scrumptious.common_entities.entity.Admin;
+import com.ss.scrumptious.common_entities.entity.RestaurantOwner;
 import com.ss.scrumptious_restaurant.dto.CreateAdminDto;
-import com.ss.scrumptious_restaurant.entity.Admin;
-import com.ss.scrumptious_restaurant.entity.RestaurantOwner;
 import com.ss.scrumptious_restaurant.service.AdminService;
 import com.ss.scrumptious_restaurant.service.RestaurantService;
 

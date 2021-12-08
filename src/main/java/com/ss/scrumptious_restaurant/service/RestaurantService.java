@@ -5,9 +5,9 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.ss.scrumptious_restaurant.dto.SaveRestaurantDto;
-import com.ss.scrumptious_restaurant.entity.Cuisine;
-import com.ss.scrumptious_restaurant.entity.Restaurant;
-import com.ss.scrumptious_restaurant.entity.RestaurantOwner;
+import com.ss.scrumptious.common_entities.entity.Cuisine;
+import com.ss.scrumptious.common_entities.entity.Restaurant;
+import com.ss.scrumptious.common_entities.entity.RestaurantOwner;
 public interface RestaurantService {
     Restaurant createRestaurant(SaveRestaurantDto createRestaurantDto);
     Restaurant getRestaurantById(Long restaurantId);

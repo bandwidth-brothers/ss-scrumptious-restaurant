@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Set;
 
 import com.ss.scrumptious_restaurant.dto.SaveMenuItemDto;
-import com.ss.scrumptious_restaurant.entity.MenuCategory;
-import com.ss.scrumptious_restaurant.entity.Menuitem;
-import com.ss.scrumptious_restaurant.entity.Restaurant;
-import com.ss.scrumptious_restaurant.entity.Tag;
+import com.ss.scrumptious.common_entities.entity.MenuCategory;
+import com.ss.scrumptious.common_entities.entity.Menuitem;
+import com.ss.scrumptious.common_entities.entity.Restaurant;
+import com.ss.scrumptious.common_entities.entity.Tag;
 public interface MenuService {
 	Menuitem createMenuItem(SaveMenuItemDto menuItemDto, Long restaurantId);
     Menuitem getMenuItemById(Long menuId);

@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.ss.scrumptious.common_entities.entity.MenuCategory;
+import com.ss.scrumptious.common_entities.entity.Menuitem;
+import com.ss.scrumptious.common_entities.entity.Tag;
 import com.ss.scrumptious_restaurant.dto.SaveMenuItemDto;
-import com.ss.scrumptious_restaurant.entity.MenuCategory;
-import com.ss.scrumptious_restaurant.entity.Menuitem;
-import com.ss.scrumptious_restaurant.entity.Tag;
 import com.ss.scrumptious_restaurant.service.MenuService;
 
 import lombok.RequiredArgsConstructor;

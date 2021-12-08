@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ss.scrumptious.common_entities.entity.RestaurantOwner;
 import com.ss.scrumptious_restaurant.dto.CreateRestaurantOwnerDto;
 import com.ss.scrumptious_restaurant.dto.UpdateRestaurantOwnerDto;
-import com.ss.scrumptious_restaurant.entity.RestaurantOwner;
 import com.ss.scrumptious_restaurant.service.RestaurantOwnerService;
 
 import lombok.RequiredArgsConstructor;

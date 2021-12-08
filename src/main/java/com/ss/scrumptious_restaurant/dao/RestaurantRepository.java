@@ -2,12 +2,12 @@ package com.ss.scrumptious_restaurant.dao;
 
 import java.util.List;
 
-import com.ss.scrumptious_restaurant.entity.Cuisine;
-import com.ss.scrumptious_restaurant.entity.RestaurantOwner;
+import com.ss.scrumptious.common_entities.entity.Cuisine;
+import com.ss.scrumptious.common_entities.entity.Restaurant;
+import com.ss.scrumptious.common_entities.entity.RestaurantOwner;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import com.ss.scrumptious_restaurant.entity.Restaurant;
 
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {

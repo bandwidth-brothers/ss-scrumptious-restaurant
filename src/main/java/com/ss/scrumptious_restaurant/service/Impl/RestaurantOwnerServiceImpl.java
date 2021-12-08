@@ -16,8 +16,8 @@ import com.ss.scrumptious_restaurant.dao.UserRepository;
 import com.ss.scrumptious_restaurant.dto.AuthDto;
 import com.ss.scrumptious_restaurant.dto.CreateRestaurantOwnerDto;
 import com.ss.scrumptious_restaurant.dto.UpdateRestaurantOwnerDto;
-import com.ss.scrumptious_restaurant.entity.RestaurantOwner;
-import com.ss.scrumptious_restaurant.entity.User;
+import com.ss.scrumptious.common_entities.entity.RestaurantOwner;
+import com.ss.scrumptious.common_entities.entity.User;
 import com.ss.scrumptious_restaurant.service.RestaurantOwnerService;
 
 import lombok.RequiredArgsConstructor;

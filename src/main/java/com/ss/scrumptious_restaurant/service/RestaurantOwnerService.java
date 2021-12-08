@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import com.ss.scrumptious_restaurant.dto.CreateRestaurantOwnerDto;
 import com.ss.scrumptious_restaurant.dto.UpdateRestaurantOwnerDto;
-import com.ss.scrumptious_restaurant.entity.RestaurantOwner;
+import com.ss.scrumptious.common_entities.entity.RestaurantOwner;
 
 public interface RestaurantOwnerService {
 

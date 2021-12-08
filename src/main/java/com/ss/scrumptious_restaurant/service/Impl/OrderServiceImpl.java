@@ -2,9 +2,9 @@ package com.ss.scrumptious_restaurant.service.Impl;
 
 import com.ss.scrumptious_restaurant.dao.OrderRepository;
 import com.ss.scrumptious_restaurant.dto.OrderStatusUpdateDto;
-import com.ss.scrumptious_restaurant.entity.Order;
-import com.ss.scrumptious_restaurant.entity.PreparationStatus;
-import com.ss.scrumptious_restaurant.entity.Restaurant;
+import com.ss.scrumptious.common_entities.entity.Order;
+import com.ss.scrumptious.common_entities.entity.PreparationStatus;
+import com.ss.scrumptious.common_entities.entity.Restaurant;
 import com.ss.scrumptious_restaurant.service.OrderService;
 import com.ss.scrumptious_restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrderStatusByIds(OrderStatusUpdateDto dto) {
-        orderRepository.updateStatusByIdIn(PreparationStatus.valueOf(dto.getStatus()), dto.getIds());
+        //orderRepository.updateStatusByIdIn(PreparationStatus.valueOf(dto.getStatus()), dto.getIds());
 
     }
 
