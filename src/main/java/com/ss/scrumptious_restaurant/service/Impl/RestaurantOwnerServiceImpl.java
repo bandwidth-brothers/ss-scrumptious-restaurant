@@ -9,15 +9,15 @@ import javax.transaction.Transactional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import com.ss.scrumptious_restaurant.client.AuthClient;
+import com.ss.scrumptious.common_entities.entity.RestaurantOwner;
+import com.ss.scrumptious.common_entities.entity.User;
 import com.ss.scrumptious_restaurant.dao.RestaurantOwnerRepository;
 import com.ss.scrumptious_restaurant.dao.UserRepository;
 import com.ss.scrumptious_restaurant.dto.AuthDto;
 import com.ss.scrumptious_restaurant.dto.CreateRestaurantOwnerDto;
 import com.ss.scrumptious_restaurant.dto.UpdateRestaurantOwnerDto;
-import com.ss.scrumptious.common_entities.entity.RestaurantOwner;
-import com.ss.scrumptious.common_entities.entity.User;
 import com.ss.scrumptious_restaurant.service.RestaurantOwnerService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,16 +28,17 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class RestaurantOwnerServiceImpl implements RestaurantOwnerService {
-    private final AuthClient authClient;
     private final RestaurantOwnerRepository restaurantOwnerRepository;
     private final UserRepository userRepository;
 
+    private final RestTemplate restTemplate;
 
     @Override
     public UUID createNewRestaurantOwner(CreateRestaurantOwnerDto ownerDto) {
         AuthDto authDto = AuthDto.builder().email(ownerDto.getEmail())
                 .password(ownerDto.getPassword()).build();
-        ResponseEntity<UUID> resp = authClient.createNewAccountRestaurantOwner(authDto);
+        String url = "http://application-load-balancer-1420109418.us-east-2.elb.amazonaws.com/auth/owner/register"; // Auth Microservice Endpoint
+        ResponseEntity<UUID> resp = this.restTemplate.postForEntity(url, authDto, UUID.class);
         if (resp.getBody() == null) {
             throw new IllegalStateException("Email is already in use");
         }
