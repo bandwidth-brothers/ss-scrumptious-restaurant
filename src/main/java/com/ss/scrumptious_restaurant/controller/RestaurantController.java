@@ -43,6 +43,7 @@ public class RestaurantController {
 	@PostMapping("/restaurants")
 	@PreAuthorize("hasRole('ADMIN')" + " OR @ownerAuthenticationManager.ownerIdMatches(authentication, #restaurantDto)")
 	public ResponseEntity<Void> createRestaurant(@Valid @RequestBody SaveRestaurantDto restaurantDto) {
+		log.info("restaurantDto: " + restaurantDto);
 		Restaurant restaurant = restaurantService.createRestaurant(restaurantDto);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{restaurantId}")
@@ -109,7 +110,7 @@ public class RestaurantController {
 		restaurantService.updateRestaurantById(restaurantId, dto);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	/**
 	 * json format array: ["bbq", "bar", "pizza"]
 	 *

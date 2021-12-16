@@ -26,6 +26,7 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getOrdersByRestaurant(Long restaurantId) {
         Restaurant res = restaurantService.getRestaurantById(restaurantId);
         List<Order> list = orderRepository.findAllByRestaurant(res);
+        
         return list;
     }
 
