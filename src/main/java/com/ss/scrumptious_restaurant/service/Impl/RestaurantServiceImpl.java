@@ -48,9 +48,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .build();
 
         Address adr = addressRepository.save(address);
-
         RestaurantOwner owner = restaurantOwnerService.getRestaurantOwnerById(createRestaurantDto.getRestaurantOwnerId());
-
         Restaurant restaurant = Restaurant.builder()
                 .owner(owner)
                 .name(createRestaurantDto.getName())
@@ -103,6 +101,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         Restaurant r = getRestaurantById(restaurantId);
 
         Restaurant updateRestaurant = RestaurantDtoMapper.map(dto);
+        log.info("updated restaurant: " + updateRestaurant);
         updateRestaurant.setId(r.getId());
         updateRestaurant.setOwner(r.getOwner());
         updateRestaurant.setRating(r.getRating());
