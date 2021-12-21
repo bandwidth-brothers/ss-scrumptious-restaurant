@@ -15,14 +15,4 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 	List<Restaurant> findByOwner(RestaurantOwner owner);
 	List<Restaurant> findByCuisines(Cuisine category);
 
-
-	/*
-	 * Finds a restaurant by using the name as a search criteria.
-	 * @param name
-	 * @return Restaurant entity whose name is an exact match with the given name.
-	 * 			If no Restaurant is found, this method returns null.
-	 */
-	//@Query("SELECT r FROM Restaurant r WHERE r.name = :name")
-	//public Restaurant findByName(@Param("name") String name);
-
 }

@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,14 +25,12 @@ public class SaveRestaurantDto {
 	@NotBlank
 	private final String name;
 
-
-	@Builder.Default
-	private final Boolean isActive=true;
-
+	private final boolean isActive = true;
 
 	private final String lineOne;
 
 	private final String lineTwo;
+
 
 	@NotNull
 	@NotBlank(message = "city cannot be blank.")

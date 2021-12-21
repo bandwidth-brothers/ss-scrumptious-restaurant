@@ -49,5 +49,7 @@ buildNumber.properties
 
 .idea/
 
-application-*.properties
-!application-product.properties
+
+application-local.properties
+application.properties
+

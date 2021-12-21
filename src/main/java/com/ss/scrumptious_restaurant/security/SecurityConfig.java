@@ -13,6 +13,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -34,13 +39,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/webjars/**",
             // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**",
-            "/swagger-ui/**"
+            "/swagger-ui/**",
             // other public endpoints of your API may be appended to this array
+            "/restaurants/health"
     };
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-    	//web.ignoring().antMatchers(AUTH_WHITELIST);
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//    	//web.ignoring().antMatchers(AUTH_WHITELIST);
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -59,6 +65,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated();
     }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
+        config.addAllowedOrigin("*");
+        config.addAllowedMethod(HttpMethod.PUT);
+        config.addAllowedMethod(HttpMethod.DELETE);
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
+
 	@Bean PasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder();
 	}
