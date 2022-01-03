@@ -49,10 +49,11 @@ pipeline{
     {
       steps
       {
-        sh "docker build -t ${env.JOB_NAME} ."
+        sh "docker build -t ${env.JOB_NAME}:${GIT_COMMIT[0..7]} -t ${env.JOB_NAME}:latest ."
         script{
           docker.withRegistry("https://${AWS_ID}.dkr.ecr.${LOCATION}.amazonaws.com/","ecr:${LOCATION}:ecr_credentials"){
-            docker.image("${env.JOB_NAME}").push()
+            docker.image("${env.JOB_NAME}:${GIT_COMMIT[0..7]}").push()
+            docker.image("${env.JOB_NAME}:latest").push()
           }
         }
         sh "docker system prune -fa"
